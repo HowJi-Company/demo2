@@ -13,24 +13,15 @@
 
 ### 主視覺橫幅
 - **hero_banner.png** (6.4MB)
-  - 用途：首頁 Hero 區塊背景圖片
+  - 用途：首頁 Hero 輪播第一張、各分頁 Banner（招生、最新消息、下載、入學資訊）
   - 原檔名：大葉招生主視覺.png
   - 使用：`/images/home/hero_banner.png`
   - 注意：檔案較大，建議使用時進行優化或壓縮
 
-### Banner 圖片
-- **banner_1.jpg** (717KB)
-  - 用途：最新消息頁面 Banner
-  - 使用：`/images/home/banner_1.jpg`
-
-- **banner_2.jpg** (9.8MB)
-  - 用途：招生資訊頁面 Banner
-  - 使用：`/images/home/banner_2.jpg`
-  - 注意：檔案較大，建議使用時進行優化或壓縮
-
-- **banner_3.jpg** (669KB)
-  - 用途：短期交流頁面 Banner
-  - 使用：`/images/home/banner_3.jpg`
+### Banner 圖片（首頁 Hero 輪播）
+- **banner_1.jpg** ~ **banner_5.jpg**
+  - 用途：首頁 Hero 區塊輪播（與 hero_banner 共 6 張，每 4.5 秒切換）
+  - **banner_3.jpg** 另用於：短期交流頁面 Banner
 
 ### Exchange 相關圖片
 - **exchange_1.jpg** (98KB)
@@ -100,5 +91,6 @@ import logo from '@/assets/images/dyu_logo.jpg';
 
 ## 🔄 更新記錄
 
+- 2025-02-25: 整合 前端圖片 資料夾，新增 banner_4、banner_5；首頁 Hero 改為輪播顯示 6 張圖
 - 2025-02-06: 初始下載，所有圖片資源已準備完成
 
