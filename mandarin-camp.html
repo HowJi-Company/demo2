@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>華語遊學暨文化體驗 - 大葉大學 CLC</title>
+    <!-- 加入大葉大學 Icon -->
+    <link rel="icon" href="https://www.dyu.edu.tw/favicon.ico" type="image/x-icon">
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Lucide 圖標 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .transition-all { transition: all 0.3s ease; }
+        .dropdown-menu { display: none; }
+        .dropdown:hover .dropdown-menu { display: block; }
+        
+        /* Hero 背景圖片優化 */
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center 30%;
+            filter: brightness(0.85);
+        }
+
+        /* 滾動動畫平滑度 */
+        #nav-info { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 pb-20">
+
+    <!-- 語言切換導覽列 -->
+    <nav id="top-nav" class="bg-indigo-900 py-3 px-4 md:px-10 sticky top-0 z-50 shadow-md transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <!-- 滾動後顯示的 通用 Logo 與 標題 -->
+            <div id="nav-info" class="flex items-center gap-3 opacity-0 -translate-x-4 transition-all duration-500 pointer-events-none">
+                <div class="bg-indigo-700 p-1.5 rounded-lg border border-indigo-500/30">
+                    <i data-lucide="school" class="w-5 h-5 text-white"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span id="nav-title" class="text-white font-bold text-sm leading-none">華語遊學暨文化體驗</span>
+                    <span class="text-indigo-300 text-[10px] uppercase tracking-tighter mt-1">Da-Yeh University</span>
+                </div>
+            </div>
+
+            <!-- 右側下拉選單 -->
+            <div class="relative dropdown">
+                <button class="flex items-center gap-2 bg-indigo-800 text-white px-4 py-2 rounded-xl text-xs font-bold border border-indigo-700 hover:bg-indigo-700 transition-all">
+                    <i data-lucide="languages" class="w-4 h-4"></i>
+                    <span id="current-lang-label">語言 / Language</span>
+                    <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+                </button>
+                <div class="dropdown-menu absolute right-0 mt-0 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden ring-1 ring-black ring-opacity-5">
+                    <button onclick="changeLang('zh')" class="w-full text-left px-4 py-3 text-sm hover:bg-slate-50 transition-colors border-b border-slate-50 flex items-center">
+                        <span>繁體中文</span>
+                    </button>
+                    <button onclick="changeLang('en')" class="w-full text-left px-4 py-3 text-sm hover:bg-slate-50 transition-colors border-b border-slate-50 flex items-center">
+                        <span>English</span>
+                    </button>
+                    <button onclick="changeLang('ja')" class="w-full text-left px-4 py-3 text-sm hover:bg-slate-50 transition-colors border-b border-slate-50 flex items-center">
+                        <span>日本語</span>
+                    </button>
+                    <button onclick="changeLang('vi')" class="w-full text-left px-4 py-3 text-sm hover:bg-slate-50 transition-colors border-b border-slate-50 flex items-center">
+                        <span>Tiếng Việt</span>
+                    </button>
+                    <button onclick="changeLang('id')" class="w-full text-left px-4 py-3 text-sm hover:bg-slate-50 transition-colors border-b border-slate-50 flex items-center">
+                        <span>B. Indonesia</span>
+                    </button>
+                    <button onclick="changeLang('mn')" class="w-full text-left px-4 py-3 text-sm hover:bg-slate-50 transition-colors flex items-center">
+                        <span>Монгол</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 標題區 -->
+    <header class="relative bg-slate-900 py-28 md:py-40 px-6 text-center overflow-hidden">
+        <div class="absolute inset-0 hero-bg opacity-80 scale-100 transform transition-transform duration-[10s] hover:scale-110"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-indigo-950/70 via-indigo-900/40 to-slate-50"></div>
+        
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h1 id="main-title" class="text-4xl md:text-7xl font-black mb-6 tracking-tight text-white drop-shadow-2xl">華語遊學暨文化體驗</h1>
+            <p id="main-subtitle" class="text-xl md:text-3xl opacity-95 font-semibold mb-12 text-white drop-shadow-md">Chinese Language Study Tour & Cultural Experience</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-bold">
+                <div class="flex items-center bg-indigo-900/40 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 text-white shadow-lg">
+                    <i data-lucide="users" class="w-5 h-5 mr-2 text-indigo-200"></i> <span id="group-size">15人或30人成團</span>
+                </div>
+                <div class="flex items-center bg-indigo-900/40 backdrop-blur-md px-6 py-3 rounded-full border border-white/30 text-white shadow-lg">
+                    <i data-lucide="clock" class="w-5 h-5 mr-2 text-indigo-200"></i> <span id="weekly-hours">每週 15 小時課程</span>
+                </div>
+                <div class="flex items-center bg-yellow-400 text-indigo-950 px-6 py-3 rounded-full shadow-2xl ring-4 ring-yellow-400/30">
+                    <i data-lucide="sparkles" class="w-5 h-5 mr-2"></i> <span id="subsidy-badge">符合教育部補助</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 -mt-16">
+        <!-- 方案卡片區 -->
+        <section class="grid lg:grid-cols-2 gap-8 mb-16 relative z-20">
+            <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden border-t-8 border-blue-500 flex flex-col transition-all hover:translate-y-[-8px]">
+                <div class="p-8 md:p-12 flex-1">
+                    <h3 id="plan1-title" class="text-2xl font-black text-slate-800 mb-2 tracking-tight">方案一：基礎文化體驗 (二周)</h3>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-4xl font-black text-slate-800 tracking-tighter">NT$ 25,000</span>
+                        <span id="price-label-1" class="ml-3 text-slate-500 font-bold text-lg">/ 每位學生</span>
+                    </div>
+                    <p id="plan1-desc" class="text-slate-600 mb-8 text-base leading-relaxed min-h-[60px]">適合初次接觸華語、希望在短時間內深入體驗台灣在地文化的學生。課程時數達標，符合補助申請門檻。</p>
+                    <div id="plan1-features" class="space-y-3.5 bg-slate-50 p-7 rounded-3xl border border-slate-100 shadow-inner"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden border-t-8 border-indigo-600 flex flex-col transition-all hover:translate-y-[-8px]">
+                <div class="p-8 md:p-12 flex-1">
+                    <h3 id="plan2-title" class="text-2xl font-black text-slate-800 mb-2 tracking-tight">方案二：深度在地探索 (四周)</h3>
+                    <div class="flex items-baseline mb-6">
+                        <span class="text-4xl font-black text-slate-800 tracking-tighter">NT$ 50,000</span>
+                        <span id="price-label-2" class="ml-3 text-slate-500 font-bold text-lg">/ 每位學生</span>
+                    </div>
+                    <p id="plan2-desc" class="text-slate-600 mb-8 text-base leading-relaxed min-h-[60px]">除了豐富的課程外，加入深度在地產業與企業參訪課程。課程規劃滿足每週 15 小時規範，可申請政府補助。</p>
+                    <div id="plan2-features" class="space-y-3.5 bg-slate-50 p-7 rounded-3xl border border-slate-100 shadow-inner"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 課程細節區 -->
+        <section class="bg-white rounded-[2.5rem] shadow-xl p-8 md:p-10 mb-12 border border-slate-100">
+            <div class="flex items-center mb-8 border-b border-slate-100 pb-6">
+                <div class="bg-indigo-100 p-3.5 rounded-2xl mr-5 shadow-sm">
+                    <i data-lucide="book-open" class="w-10 h-10 text-indigo-600"></i>
+                </div>
+                <div class="flex-1">
+                    <h2 id="course-header" class="text-2xl font-black text-slate-800 tracking-tight text-center md:text-left">精彩課程規劃</h2>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mt-2">
+                        <p id="course-sub" class="text-indigo-600 text-lg font-bold">保證每週 15 小時紮實華語訓練</p>
+                        <p id="daily-pairing-note" class="text-amber-800 text-xs font-black bg-amber-100 px-4 py-2 rounded-xl border border-amber-200 inline-flex items-center shadow-sm">
+                            <i data-lucide="info" class="w-3 h-3 mr-1.5"></i>
+                            原則上每天一堂華語學習搭配一堂文化體驗
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <!-- 華語學習 (25%) -->
+                <div class="lg:col-span-3">
+                    <h4 id="lang-learn-title" class="flex items-center text-base font-black text-blue-600 mb-6 uppercase tracking-[0.1em] border-l-4 border-blue-500 pl-4">華語學習</h4>
+                    <ul id="lang-list" class="space-y-4"></ul>
+                </div>
+                <!-- 文化體驗 (45%) -->
+                <div class="lg:col-span-5">
+                    <h4 id="culture-exp-title" class="flex items-center text-base font-black text-amber-600 mb-6 uppercase tracking-[0.1em] border-l-4 border-amber-500 pl-4">文化體驗</h4>
+                    <ul id="culture-list" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4"></ul>
+                </div>
+                <!-- 探索活動 (30%) -->
+                <div class="lg:col-span-4">
+                    <h4 id="explore-act-title" class="flex items-center text-base font-black text-emerald-600 mb-6 uppercase tracking-[0.1em] border-l-4 border-emerald-500 pl-4">探索活動</h4>
+                    <ul id="explore-list" class="space-y-4"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 三大優勢區 -->
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+            <div class="bg-blue-50 p-8 rounded-[2.5rem] border border-white flex items-start shadow-sm hover:shadow-lg transition-all group">
+                <div class="bg-white p-4 rounded-2xl mr-6 shadow-sm border border-blue-100 group-hover:bg-blue-600 transition-colors"><i data-lucide="clock" class="text-blue-600 w-8 h-8 group-hover:text-white"></i></div>
+                <div>
+                    <h5 id="spec-h-title" class="font-black text-slate-800 text-xl mb-2 tracking-tight">時數規範</h5>
+                    <p id="spec-h-desc" class="text-base text-slate-600 leading-relaxed">每週華語課程達 15 小時，符合教育部補助門檻。</p>
+                </div>
+            </div>
+            <div class="bg-emerald-50 p-8 rounded-[2.5rem] border border-white flex items-start shadow-sm hover:shadow-lg transition-all group">
+                <div class="bg-white p-4 rounded-2xl mr-6 shadow-sm border border-emerald-100 group-hover:bg-emerald-600 transition-colors"><i data-lucide="home" class="text-emerald-600 w-8 h-8 group-hover:text-white"></i></div>
+                <div>
+                    <h5 id="spec-d-title" class="font-black text-slate-800 text-xl mb-2 tracking-tight">優質住宿</h5>
+                    <p id="spec-d-desc" class="text-base text-slate-600 leading-relaxed">校內住宿含床鋪與寢具，費用已全額涵蓋水、電及網路。</p>
+                </div>
+            </div>
+            <div class="bg-orange-50 p-8 rounded-[2.5rem] border border-white flex items-start shadow-sm hover:shadow-lg transition-all group">
+                <div class="bg-white p-4 rounded-2xl mr-6 shadow-sm border border-orange-100 group-hover:bg-orange-600 transition-colors"><i data-lucide="utensils" class="text-orange-600 w-8 h-8 group-hover:text-white"></i></div>
+                <div>
+                    <h5 id="spec-m-title" class="font-black text-slate-800 text-xl mb-2 tracking-tight">餐飲安排</h5>
+                    <p id="spec-m-desc" class="text-base text-slate-600 leading-relaxed">每日提供健康營養三餐，讓學生無憂專注於學習與文化體驗。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 教育部補助區 (調整佈局與對齊) -->
+        <div class="bg-slate-900 rounded-[3.5rem] overflow-hidden shadow-2xl relative">
+            <div class="absolute top-0 right-0 p-8 opacity-10">
+                <i data-lucide="dollar-sign" class="w-80 h-80 text-yellow-400 rotate-12"></i>
+            </div>
+            
+            <div class="p-10 md:p-14 relative z-10 max-w-6xl mx-auto">
+                <!-- 標題部分：全寬度 -->
+                <div class="w-full text-center lg:text-left mb-10">
+                    <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-400 text-xs font-black mb-6 uppercase tracking-[0.2em] border border-yellow-400/30">
+                        <i data-lucide="sparkles" class="w-4 h-4 mr-3"></i> <span id="govt-support-label">政府專案補助</span>
+                    </div>
+                    <h3 id="subsidy-q" class="text-2xl md:text-3xl font-black text-white mb-4 tracking-tight leading-snug">想讓您的遊學旅程更輕鬆嗎？</h3>
+                    <p id="subsidy-desc" class="text-slate-400 text-sm md:text-base mb-2 leading-relaxed max-w-3xl font-medium">本校將全力協助符合資格之團體申請教育部專案補助。課程規劃完全符合官方時數門檻。</p>
+                </div>
+
+                <!-- 內容部分：左右分欄，但高度對齊 -->
+                <div class="flex flex-col lg:flex-row items-stretch gap-6 md:gap-8">
+                    <!-- 左側：補助金額 -->
+                    <div class="flex-1">
+                        <div class="h-full bg-white/5 border border-white/10 rounded-[2rem] p-8 md:p-10 flex flex-col justify-center backdrop-blur-md">
+                            <div class="flex items-center justify-center lg:justify-start mb-4">
+                                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400 mr-3"></i>
+                                <span id="subsidy-label" class="text-white text-base md:text-lg font-bold">核准後補助額度預估：</span>
+                            </div>
+                            <div id="subsidy-amount" class="text-2xl md:text-4xl font-black text-emerald-400 tracking-tighter">每人每週補助 NT$ 6,000 元</div>
+                            <div class="mt-4 pt-4 border-t border-white/10">
+                                <p id="subsidy-note" class="text-slate-400 text-xs italic leading-relaxed">
+                                    ※ 須滿足每週 15 小時華語課程之規範<br>
+                                    <span class="text-slate-500 font-bold" id="moe-approval-note">※ 最終補助結果依教育部核定為準</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右側：申請時限 -->
+                    <div class="w-full lg:w-80">
+                        <div class="h-full bg-indigo-600 rounded-[2rem] p-8 md:p-10 shadow-xl border border-indigo-400/30 text-center flex flex-col justify-center transition-all duration-500 hover:brightness-110">
+                            <p id="deadline-label" class="text-indigo-200 text-[10px] md:text-xs font-black uppercase tracking-[0.2em] mb-4">申請時限 Deadline</p>
+                            <p id="deadline-val" class="text-4xl md:text-5xl font-black text-white mb-2 tracking-tighter">8 週前</p>
+                            <p id="deadline-note" class="text-indigo-100 text-xs md:text-sm mb-8 px-2 opacity-90 font-medium leading-relaxed">請務必提早聯繫本校協助申請</p>
+                            <a href="mailto:clc@mail.dyu.edu.tw" id="contact-btn" class="block w-full bg-white text-indigo-700 font-black py-4 rounded-2xl hover:bg-indigo-50 transition-all shadow-lg active:scale-95 text-base tracking-tight">立即諮詢 / 聯繫我們</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁尾與聯絡資訊 -->
+    <footer class="mt-20 py-16 bg-white border-t border-slate-100 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+                <!-- 學校資訊 -->
+                <div class="col-span-1">
+                    <h4 id="footer-clc" class="text-lg font-black text-slate-800 mb-6 tracking-tight">大葉大學 華語教學中心 (CLC)</h4>
+                    <div class="flex items-center gap-4 group">
+                        <div class="bg-indigo-50 p-2 rounded-xl group-hover:bg-indigo-600 transition-all duration-300">
+                            <i data-lucide="globe-2" class="w-5 h-5 text-indigo-600 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <span class="text-slate-700 text-base font-bold tracking-tight">Da-Yeh University</span>
+                    </div>
+                    <p class="text-slate-400 text-[10px] mt-8 font-bold uppercase tracking-widest italic opacity-60">Educational Excellence Since 1990</p>
+                </div>
+                <!-- 聯絡我們 -->
+                <div class="space-y-6">
+                    <h5 id="footer-contact-title" class="font-black text-slate-800 uppercase text-[10px] tracking-[0.2em] mb-4 border-b border-slate-100 pb-1.5">聯絡我們</h5>
+                    <div class="space-y-3.5">
+                        <a href="mailto:clc@mail.dyu.edu.tw" class="flex items-center group">
+                            <i data-lucide="mail" class="w-4 h-4 text-indigo-500 mr-4 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-slate-600 text-sm font-medium group-hover:text-indigo-600 transition-colors">clc@mail.dyu.edu.tw</span>
+                        </a>
+                        <a href="tel:+886-4-8511613" class="flex items-center group">
+                            <i data-lucide="phone" class="w-4 h-4 text-indigo-500 mr-4 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-slate-600 text-sm font-medium group-hover:text-indigo-600 transition-colors">+886-4-8511613</span>
+                        </a>
+                        <div class="flex items-start pt-1">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-indigo-500 mr-4 mt-0.5 flex-shrink-0"></i>
+                            <p id="footer-addr" class="text-slate-600 text-sm font-medium leading-relaxed">515006 彰化縣大村鄉學府路168號</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 相關連結 -->
+                <div class="space-y-6">
+                    <h5 id="footer-links-title" class="font-black text-slate-800 uppercase text-[10px] tracking-[0.2em] mb-4 border-b border-slate-100 pb-1.5">相關連結</h5>
+                    <div class="flex flex-col gap-3.5">
+                        <a href="https://www.dyu.edu.tw" target="_blank" class="flex items-center group text-slate-600 hover:text-indigo-600 transition-all font-bold text-sm">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-3 opacity-30 group-hover:opacity-100 transition-all"></i><span id="link-dyu">大葉大學首頁</span>
+                        </a>
+                        <a href="https://chn.dyu.edu.tw/" target="_blank" class="flex items-center group text-slate-600 hover:text-indigo-600 transition-all font-bold text-sm">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-3 opacity-30 group-hover:opacity-100 transition-all"></i><span id="link-clc">華語中心首頁</span>
+                        </a>
+                        <a href="https://studyat.dyu.edu.tw" target="_blank" class="flex items-center group text-slate-600 hover:text-indigo-600 transition-all font-bold text-sm">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-3 opacity-30 group-hover:opacity-100 transition-all"></i><span id="link-study">國際招生首頁</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-slate-100 text-center text-slate-400 text-[10px] font-bold tracking-tight">
+                © 2026 Da-Yeh University Chinese Language Center. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            zh: {
+                title: "華語遊學暨文化體驗", subtitle: "Chinese Language Study Tour & Cultural Experience",
+                groupSize: "15人或30人成團", weeklyHours: "每週 15 小時課程", subsidyQualified: "符合教育部補助",
+                plan1Title: "方案一：基礎文化體驗 (二周)", plan2Title: "方案二：深度在地探索 (四周)",
+                priceLabel: "/ 每位學生", includes: "費用包含項目 Include:",
+                plan1Desc: "適合初次接觸華語、希望在短時間內深入體驗台灣在地文化的學生。課程時數達標，符合補助申請門檻。",
+                plan2Desc: "除了豐富的課程外，加入深度在地產業與企業參訪課程。課程規劃滿足每週 15 小時規範，可申請政府補助。",
+                features: ["每週 15 小時華語課程", "華語課程講義", "校內住宿 (含水電網路)", "每日三餐", "文化體驗材料費", "保險費", "文化體驗旅遊", "專屬企業參訪 (方案二適用)"],
+                courseHeader: "精彩課程規劃", courseSub: "保證每週 15 小時紮實華語訓練",
+                dailyPairing: "原則上每天一堂華語學習搭配一堂文化體驗",
+                langLearning: "華語學習", cultureExp: "文化體驗", exploreAct: "探索活動",
+                specHTitle: "時數規範", specHDesc: "每週華語課程達 15 小時，符合教育部補助門檻。",
+                specDTitle: "優質住宿", specDDesc: "校內住宿含床鋪與寢具，費用已全額涵蓋水、電及網路。",
+                specMTitle: "餐飲安排", specMDesc: "每日提供健康營養三餐，讓學生無憂專注於學習與文化體驗。",
+                govtSupport: "政府專案補助", subsidyQ: "想讓您的遊學旅程更輕鬆嗎？",
+                subsidyDesc: "本校將全力協助符合資格之團體申請教育部專案補助。課程規劃完全符合官方時數門檻。",
+                subsidyLabel: "核准後補助額度預估：", subsidyAmount: "每人每週補助 NT$ 6,000 元", 
+                subsidyNote: "※ 須滿足每週 15 小時華語課程之規範",
+                moeNote: "※ 最終補助結果依教育部核定為準",
+                deadlineLabel: "申請時限 Deadline", deadlineVal: "8 週前", deadlineNote: "請務必提早聯繫本校協助申請",
+                contactBtn: "立即諮詢 / 聯繫我們", contactTitle: "聯絡我們", linksTitle: "相關連結",
+                linkDYU: "大葉大學首頁", linkCLC: "華語中心首頁", linkStudy: "國際招生首頁",
+                address: "515006 彰化縣大村鄉學府路168號", clc: "大葉大學 華語教學中心 (CLC)"
+            },
+            en: {
+                title: "Chinese Language & Culture Tour", subtitle: "Immerse Yourself in the Heart of Taiwan",
+                groupSize: "15 or 30 students per group", weeklyHours: "15 hours of classes per week", subsidyQualified: "MOE Subsidy Qualified",
+                plan1Title: "Plan A: Basic Culture (2 Weeks)", plan2Title: "Plan B: Deep Exploration (4 Weeks)",
+                priceLabel: "/ Per Student", includes: "Price Includes:",
+                plan1Desc: "Perfect for beginners who want to experience Taiwanese culture. Meets subsidy requirements.",
+                plan2Desc: "Includes rich courses plus exclusive industry visits. Complies with 15-hour weekly regulations.",
+                features: ["15 hours of Mandarin per week", "Course materials/handouts", "On-campus dorm (Util. incl.)", "Three meals a day", "Cultural activity materials", "Insurance", "Cultural Experience Tour", "Exclusive Enterprise Visit (Plan B Only)"],
+                courseHeader: "Curriculum Highlights", courseSub: "Guaranteed 15 hours of intensive training",
+                dailyPairing: "One Mandarin class paired with one cultural experience class daily",
+                langLearning: "Language Learning", cultureExp: "Culture Experience", exploreAct: "Exploration",
+                specHTitle: "Hour Regulations", specHDesc: "15 hours per week, meeting the MOE subsidy threshold.",
+                specDTitle: "Quality Dormitory", specDDesc: "On-campus housing including bedding, water, electricity, and internet.",
+                specMTitle: "Dining Plan", specMDesc: "Daily nutritious meals provided for a worry-free stay.",
+                govtSupport: "Govt. Project Support", subsidyQ: "Want to lower your costs?",
+                subsidyDesc: "We assist eligible groups in applying for MOE subsidies. Our program meets all official requirements.",
+                subsidyLabel: "Estimated Subsidy Amount:", subsidyAmount: "NT$ 6,000 subsidy / week / person", 
+                subsidyNote: "* Must meet 15-hour weekly course requirement",
+                moeNote: "* Final subsidy depends on MOE approval",
+                deadlineLabel: "Application Deadline", deadlineVal: "8 Weeks Before", deadlineNote: "Please contact us early for application assistance",
+                contactBtn: "Contact Us Now", contactTitle: "Contact Us", linksTitle: "Quick Links",
+                linkDYU: "DYU Homepage", linkCLC: "CLC Homepage", linkStudy: "International Admissions",
+                address: "No. 168, Xuefu Rd., Dacun Township, Changhua County 515006, Taiwan", clc: "DYU Chinese Language Center (CLC)"
+            },
+            ja: {
+                title: "華語留学・文化體驗プログラム", subtitle: "台灣の心に觸れる學習と探索の旅",
+                groupSize: "15名または30名の団体單位", weeklyHours: "週15時間の授業", subsidyQualified: "教育部補助金對象",
+                plan1Title: "プランA：基礎文化體験 (2週間)", plan2Title: "プランB：深度地域探索 (4週間)",
+                priceLabel: "/ 生徒一人あたり", includes: "費用に含まれるもの:",
+                plan1Desc: "初めての華語學習者や、短期間で台灣文化を體験したい方に最適。補助金要件に適合。",
+                plan2Desc: "充実した授業に加え、地域産業や企業への訪問が含まれます。政府補助金の對象プラン。",
+                features: ["週15時間の華語授業", "授業教材・資料代", "學內宿舍 (光熱費・ネット込)", "一日三食の食事", "文化體験材料費", "保險料", "文化體験ツアー", "專屬企業訪問 (プランBのみ)"],
+                courseHeader: "カリキュラム詳細", courseSub: "週15時間の確かな語學トレーニングを保證",
+                dailyPairing: "原則として、毎日1コマの華語學習和1コマの文化體驗を實施します",
+                langLearning: "華語學習", cultureExp: "文化體験", exploreAct: "探索アクティビティ",
+                specHTitle: "時間規定", specHDesc: "週15時間の授業を實施し、教育部の補助金基準を滿たしています。",
+                specDTitle: "快適な宿泊施設", specDDesc: "學內宿舍（寢具付）。水道、電氣、インターネット費用も全て込み。",
+                specMTitle: "お食事", specMDesc: "健康に配慮した三食の食事を提供。安心して學習に專念できます。",
+                govtSupport: "政府プロジェクト支援", subsidyQ: "費用を抑えたいですか？",
+                subsidyDesc: "條件を滿たす団体に對し、教育部的補助金申請を全面的にサポートします。",
+                subsidyLabel: "承認後的想定補助額：", subsidyAmount: "一人あたり週補助 NT$ 6,000", 
+                subsidyNote: "※ 週15時間の授業參加が條件となります",
+                moeNote: "※ 補助金の最終決定は教育部の審査によります",
+                deadlineLabel: "申請期限", deadlineVal: "8週間前まで", deadlineNote: "申請準備のため、お早めにご相談ください",
+                contactBtn: "お問い合わせ / 相談", contactTitle: "お問い合わせ", linksTitle: "関連リンク",
+                linkDYU: "大葉大学トップ", linkCLC: "華語センター", linkStudy: "国際学生募集",
+                address: "515006 台灣彰化縣大村鄉學府路168號", clc: "大葉大學 華語教學センター (CLC)"
+            },
+            vi: {
+                title: "Du học Hoa ngữ & Trải nghiệm Văn hóa", subtitle: "Học tập và Khám phá tại Trái tim Đài Loan",
+                groupSize: "Đoàn 15 hoặc 30 người", weeklyHours: "15 giờ học mỗi tuần", subsidyQualified: "Đủ điều kiện nhận trợ cấp",
+                plan1Title: "Gói 1: Trải nghiệm Văn hóa Cơ bản (2 tuần)", plan2Title: "Gói 2: Khám phá Địa phương Chuyên sâu (4 tuần)",
+                priceLabel: "/ Mỗi sinh viên", includes: "Chi phí bao gồm:",
+                plan1Desc: "Phù hợp cho người mới bắt đầu muốn trải nghiệm văn hóa Đài Loan. Đáp ứng tiêu chuẩn trợ cấp.",
+                plan2Desc: "Gồm các khóa học và tham quan doanh nghiệp. Đáp ứng quy định 15 giờ/tuần để nhận trợ cấp.",
+                features: ["15 giờ học tiếng Hoa mỗi tuần", "Giáo trình và tài liệu học tập", "Ký túc xá (Bao gồm điện nước net)", "Ba bữa ăn mỗi ngày", "Phí vật liệu trải nghiệm", "Bảo hiểm", "Tour trải nghiệm văn hóa", "Tham quan doanh nghiệp (Chỉ áp dụng Gói 2)"],
+                courseHeader: "Kế hoạch Khóa học", courseSub: "Đảm bảo 15 giờ đào tạo chuyên sâu mỗi tuần",
+                dailyPairing: "Một tiết học tiếng Hoa đi kèm with một tiết trải nghiệm văn hóa mỗi ngày",
+                langLearning: "Học tiếng Hoa", cultureExp: "Trải nghiệm Văn hóa", exploreAct: "Hoạt động Khám phá",
+                specHTitle: "Quy định Thời lượng", specHDesc: "Khóa học đạt 15 giờ mỗi tuần, đủ điều kiện nhận trợ cấp Bộ Giáo dục.",
+                specDTitle: "Chỗ ở Chất lượng", specDDesc: "Ký túc xá trong trường bao gồm giường, điện nước và mạng internet.",
+                specMTitle: "Sắp xếp Ăn uống", specMDesc: "Cung cấp ba bữa ăn dinh dưỡng mỗi ngày để sinh viên yên tâm học tập.",
+                govtSupport: "Trợ cấp Dự án", subsidyQ: "Bạn muốn hành trình tiết kiệm hơn?",
+                subsidyDesc: "Chúng tôi sẽ hỗ trợ đoàn đăng ký trợ cấp chuyên án của Bộ Giáo dục Đài Loan.",
+                subsidyLabel: "Mức trợ cấp dự kiến:", subsidyAmount: "Trợ cấp 6,000 NTD / người / tuần", 
+                subsidyNote: "* Phải đảm bảo học đủ 15 giờ mỗi tuần",
+                moeNote: "* Kết quả trợ cấp cuối cùng do Bộ Giáo dục quyết định",
+                deadlineLabel: "Hạn đăng ký", deadlineVal: "8 tuần trước", deadlineNote: "Vui lòng liên hệ sớm để chúng tôi hỗ trợ thủ tục",
+                contactBtn: "Tư vấn ngay / Liên hệ", contactTitle: "Liên hệ", linksTitle: "Liên kết",
+                linkDYU: "Trang chủ DYU", linkCLC: "Trang chủ CLC", linkStudy: "Tuyển sinh quốc tế",
+                address: "Số 168, đường Xuefu, xã Dacun, huyện Changhua 515006", clc: "Trung tâm Tiếng Hoa ĐH Đại Diệp (CLC)"
+            },
+            id: {
+                title: "Wisata Studi Mandarin & Budaya", subtitle: "Belajar dan Menjelajah di Jantung Taiwan",
+                groupSize: "Grup 15 atau 30 orang", weeklyHours: "15 jam pelajaran per minggu", subsidyQualified: "Memenuhi Syarat Subsidi",
+                plan1Title: "Paket 1: Pengalaman Budaya Dasar (2 Minggu)", plan2Title: "Paket 2: Eksplorasi Lokal Mendalam (4 Minggu)",
+                priceLabel: "/ Per Siswa", includes: "Biaya Termasuk:",
+                plan1Desc: "Cocok untuk pemula yang ingin mengenal budaya Taiwan. Memenuhi syarat subsidi.",
+                plan2Desc: "Termasuk kursus intensif dan kunjungan industri. Memenuhi syarat subsidi pemerintah.",
+                features: ["15 jam kelas Mandarin per minggu", "Materi dan buku panduan", "Asrama kampus (Inc. air/listrik/net)", "Tiga kali makan sehari", "Biaya bahan praktik budaya", "Asuransi", "Tur Pengalaman Budaya", "Kunjungan Perusahaan Eksklusif (Hanya Paket B)"],
+                courseHeader: "Rencana Kurikulum", courseSub: "Menjamin 15 jam pelatihan intensif setiap minggu",
+                dailyPairing: "Satu kelas Mandarin dipasangkan dengan satu kelas budaya setiap hari",
+                langLearning: "Belajar Mandarin", cultureExp: "Pengalaman Budaya", exploreAct: "Kegiatan Eksplorasi",
+                specHTitle: "Aturan Jam Belajar", specHDesc: "15 jam per minggu, sesuai batas minimum subsidi pemerintah (MOE).",
+                specDTitle: "Akomodasi Berkualitas", specDDesc: "Asrama dalam kampus lengkap with tempat tidur, air, listrik, and internet.",
+                specMTitle: "Pengaturan Konsumsi", specMDesc: "Makanan bergizi tiga kali sehari disediakan untuk kenyamanan siswa.",
+                govtSupport: "Dukungan Proyek", subsidyQ: "Ingin biaya perjalanan lebih ringan?",
+                subsidyDesc: "Kami membantu grup yang memenuhi syarat untuk mengajukan subsidi khusus dari MOE Taiwan.",
+                subsidyLabel: "Perkiraan Jumlah Subsidi:", subsidyAmount: "Subsidi NT$ 6.000 / orang / minggu", 
+                subsidyNote: "* Wajib memenuhi syarat 15 jam belajar/minggu",
+                moeNote: "* Hasil subsidi akhir tergantung keputusan MOE",
+                deadlineLabel: "Batas Pendaftaran", deadlineVal: "8 Minggu Sebelum", deadlineNote: "Harap hubungi kami segera untuk bantuan pendaftaran",
+                contactBtn: "Konsultasi / Hubungi Kami", contactTitle: "Kontak", linksTitle: "Tautan Cepat",
+                linkDYU: "Beranda DYU", linkCLC: "Beranda CLC", linkStudy: "Penerimaan Internasional",
+                address: "No. 168, Xuefu Rd., Dacun Township, Changhua County 515006", clc: "Pusat Bahasa Mandarin Univ. Da-Yeh (CLC)"
+            },
+            mn: {
+                title: "Хятад хэлний сургалт ба соёлын аялал", subtitle: "Тайванийн зүрхэнд суралцаж, танилцах аялал",
+                groupSize: "15 эсвэл 30 хүнтэй баг", weeklyHours: "Долоо хоногт 15 цагийн хичээл", subsidyQualified: "Тэтгэлэгт хамрагдах боломжтой",
+                plan1Title: "Хөтөлбөр 1: Соёлын анхан шатны туршлага (2 долоо хоног)", plan2Title: "Хөтөлбөр 2: Гүнзгийрүүлсэн орон нутгийн танилцуулга (4 долоо хоног)",
+                priceLabel: "/ Нэг сурагч", includes: "Зардалд багтсан зүйлс:",
+                plan1Desc: "Анхан шатны хэлний мэдлэгтэй, соёлтой богино хугацаанд танилцах хүсэлтэй хүмүүст тохиромжтой.",
+                plan2Desc: "Хэлний хичээлээс гадна орон нутгийн үйлдвэр, аж ахуйн нэгжтэй танилцах аялал багтсан.",
+                features: ["Долоо хоногт 15 цагийн хэлний хичээл", "Сурах бичиг, гарын авлага", "Сургуулийн дотуур байр (Ус, тог, нэт орсон)", "Өдрийн гурван хоол", "Соёлын материалын зардал", "Даатгал", "Соёлын туршлага аялал", "Бизнесийн айлчлал (Зөвхөн 2-р хөтөлбөр)"],
+                courseHeader: "Сургалтын төлөвлөгөө", courseSub: "Долоо хоногт 15 цагийн чанартай сургалт",
+                dailyPairing: "Өдөр бүр нэг хятад хэлний хичээл, нэг соёлын арга хэмжээ орно",
+                langLearning: "Хэл сурах", cultureExp: "Соёлын туршлага", exploreAct: "Танилцах үйл ажиллагаа",
+                specHTitle: "Цагийн зохицуулалт", specHDesc: "Долоо хоногт 15 цаг хичээллэснээр Тайванийн БШУЯ-ны тэтгэлэг авах шаардлагыг хангана.",
+                specDTitle: "Тав тухтай байр", specDDesc: "Сургуулийн дотуур байр, ор дэрний хэрэгсэл. Ус, цахилгаан, интернэт үнэгүй.",
+                specMTitle: "Хоол унд", specMDesc: "Эрүүл, тэжээллэг өдрийн гурван хоолоор хангана.",
+                govtSupport: "Засгийн газрын дэмжлэг", subsidyQ: "Зардлаа хэмнэхийг хүсэж байна уу?",
+                subsidyDesc: "Бид БШУЯ-ны тусгай тэтгэлэгт хамрагдахад тань бүх талаар туслах болно.",
+                subsidyLabel: "Тэтгэлгийн хэмжээ:", subsidyAmount: "Нэг хүнд долоо хоногт 6,000 NT$ тэтгэмж", 
+                subsidyNote: "* Долоо хоногт 15 цагийн хичээлд суух шаардлагатай",
+                moeNote: "* Эцсийн шийдвэрийг БШУЯ гаргана",
+                deadlineLabel: "Бүртгэлийн хугацаа", deadlineVal: "8 долоо хоногийн өмнө", deadlineNote: "Тэтгэлэгт хамрагдахын тулд бидэнтэй эрт холбогдоно уу",
+                contactBtn: "Холбоо барих", contactTitle: "Холбоо барих", linksTitle: "Холбоосууд",
+                linkDYU: "Сургуулийн нүүр", linkCLC: "Хэлний төв", linkStudy: "Элсэлтийн хуудас",
+                address: "Тайвань, Чанхуа муж, Дакун хотхон, Сюэфү зам 168 тоот, 515006", clc: "Да Е Их сургууль Хятад хэлний төв (CLC)"
+            }
+        };
+
+        const courseList = {
+            language: [
+                { zh: '生活華語 (食衣住行)', en: 'Survival Mandarin', vi: 'Hoa ngữ sinh hoạt', id: 'Mandarin Praktis', ja: '生活華語 (衣食住行)', mn: 'Өдөр тутмын хэл' },
+                { zh: '實用會話與發音', en: 'Practical Conversation', vi: 'Hội thoại & Phát âm', id: 'Percakapan Praktis', ja: '実用會話・發音', mn: 'Харилцан яриа' },
+                { zh: '數位華語學習', en: 'Digital Mandarin Learning', vi: 'Học tiếng Hoa kỹ thuật số', id: 'Pembelajaran Digital', ja: 'デジタル華語學習', mn: 'Дижитал сургалт' },
+                { zh: '語文成果發表', en: 'Project Presentation', vi: 'Báo cáo kết quả học tập', id: 'Presentasi Hasil Belajar', ja: '語學成果發表', mn: 'Тайлан тоглолт' }
+            ],
+            culture: [
+                { zh: '太極拳', en: 'Tai Chi', vi: 'Thái cực quyền', id: 'Tai Chi', ja: '太極拳', mn: 'Тайчи' },
+                { zh: '香包製作', en: 'Scented Sachet', vi: 'Làm túi thơm', id: 'Membuat Kantong Wangi', ja: '香包作り', mn: 'Үнэрт уут хийх' },
+                { zh: '鳳梨酥 DIY', en: 'Pineapple Cake DIY', vi: 'Làm bánh dứa DIY', id: 'Membuat Kue Nanas', ja: 'パイナップルケーキ DIY', mn: 'Хан боргоцойн бялуу хийх' },
+                { zh: '桌遊體驗', en: 'Board Games', vi: 'Trải nghiệm Board Games', id: 'Permainan Papan', ja: 'ボードゲーム體験', mn: 'Ширээний тоглоом' },
+                { zh: '書法', en: 'Calligraphy', vi: 'Thư pháp', id: 'Kaligrafi', ja: '書道', mn: 'Уран бичлэг' },
+                { zh: 'AI 繪畫', en: 'AI Painting', vi: 'Vẽ tranh bằng AI', id: 'Melukis dengan AI', ja: 'AI 繪畫', mn: 'AI зураг зурах' },
+                { zh: '燈籠彩繪', en: 'Lantern Painting', vi: 'Vẽ đèn lồng', id: 'Melukis Lampion', ja: '提灯の絵付け', mn: 'Дэнлүү будах' },
+                { zh: '經絡調理', en: 'Meridian Care', vi: 'Chăm sóc kinh lạc', id: 'Perawatan Meridian', ja: '経絡トリートメント', mn: '經絡トリートメント' },
+                { zh: '春捲 DIY', en: 'Spring Roll DIY', vi: 'Làm nem cuốn DIY', id: 'Membuat Lumpia', ja: '春卷き DIY', mn: 'Хаврын ороомог хийх' },
+                { zh: '手工皂製作', en: 'Handmade Soap', vi: 'Làm xà phòng thủ công', id: 'Membuat Sabun Buatan Tangan', ja: '手作り石鹸制作', mn: 'Гар хийцийн саван' },
+                { zh: '臉譜彩繪', en: 'Face Mask Painting', vi: 'Vẽ mặt nạ tuồng', id: 'Melukis Topeng', ja: '臉譜の繪付け', mn: 'Баг будах' },
+                { zh: 'AI 輔助遊戲製作', en: 'AI Game Design', vi: 'Làm trò chơi hỗ trợ bởi AI', id: 'Membuat Game dengan AI', ja: 'AI支援ゲーム制作', mn: 'AI тоглоом хийх' },
+                { zh: '萬金油製作', en: 'Essential Balm DIY', vi: 'Làm dầu cù là DIY', id: 'Membuat Minyak Angin', ja: '萬金油（メンソールバーム）作り', mn: 'Тосон түрхлэг хийх' },
+                { zh: '瑜珈', en: 'Yoga', vi: 'Yoga', id: 'Yoga', ja: 'ヨガ', mn: 'Иог' },
+                { zh: '金工製作', en: 'Metalworking', vi: 'Chế tác kim hoàn', id: 'Kerajinan Logam', ja: '彫金・金工制作', mn: 'Төмөрлөгийн урлал' }
+            ]
+        };
+
+        function changeLang(lang) {
+            const data = translations[lang];
+            const langMap = { zh: "繁體中文", en: "English", ja: "日本語", vi: "Tiếng Việt", id: "B. Indonesia", mn: "Монгол" };
+            document.getElementById('current-lang-label').innerText = langMap[lang];
+
+            document.getElementById('main-title').innerText = data.title;
+            document.getElementById('nav-title').innerText = data.title;
+            document.getElementById('main-subtitle').innerText = data.subtitle;
+            document.getElementById('group-size').innerText = data.groupSize;
+            document.getElementById('weekly-hours').innerText = data.weeklyHours;
+            document.getElementById('subsidy-badge').innerText = data.subsidyQualified;
+            
+            document.getElementById('plan1-title').innerText = data.plan1Title;
+            document.getElementById('plan1-desc').innerText = data.plan1Desc;
+            document.getElementById('price-label-1').innerText = data.priceLabel;
+            document.getElementById('plan2-title').innerText = data.plan2Title;
+            document.getElementById('plan2-desc').innerText = data.plan2Desc;
+            document.getElementById('price-label-2').innerText = data.priceLabel;
+
+            const renderFeatures = (id, count) => {
+                const container = document.getElementById(id);
+                container.innerHTML = `<p class="font-bold text-[10px] uppercase tracking-wider text-slate-400 mb-2">${data.includes}</p>`;
+                for (let i = 0; i < count; i++) {
+                    container.innerHTML += `<div class="flex items-center text-xs text-slate-700 font-medium"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-emerald-500 flex-shrink-0"></i> ${data.features[i]}</div>`;
+                }
+            };
+            renderFeatures('plan1-features', 7);
+            renderFeatures('plan2-features', 8);
+
+            document.getElementById('course-header').innerText = data.courseHeader;
+            document.getElementById('course-sub').innerText = data.courseSub;
+            document.getElementById('daily-pairing-note').innerHTML = `<i data-lucide="info" class="w-4 h-4 mr-2"></i> ${data.dailyPairing}`;
+            document.getElementById('lang-learn-title').innerText = data.langLearning;
+            document.getElementById('culture-exp-title').innerText = data.cultureExp;
+            document.getElementById('explore-act-title').innerText = data.exploreAct;
+
+            const renderList = (id, list) => {
+                const container = document.getElementById(id);
+                container.innerHTML = '';
+                list.forEach((item, i) => {
+                    container.innerHTML += `<li class="flex items-start"><i data-lucide="check" class="w-3.5 h-3.5 mr-2 text-indigo-400 mt-0.5 flex-shrink-0"></i><span class="text-sm text-slate-700 font-medium">${item[lang]}</span></li>`;
+                });
+            };
+            renderList('lang-list', courseList.language);
+            renderList('culture-list', courseList.culture);
+            
+            document.getElementById('explore-list').innerHTML = `
+                <li class="flex items-start"><span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-1.5 py-0.5 rounded mr-2 uppercase">Tour</span><span class="text-sm text-slate-700 font-bold">${data.features[6]}</span></li>
+                <li class="flex items-start opacity-80"><span class="bg-indigo-100 text-indigo-700 text-[10px] font-bold px-1.5 py-0.5 rounded mr-2 uppercase">Special</span><span class="text-sm text-slate-700 font-bold">${data.features[7]}</span></li>`;
+
+            document.getElementById('spec-h-title').innerText = data.specHTitle;
+            document.getElementById('spec-h-desc').innerText = data.specHDesc;
+            document.getElementById('spec-d-title').innerText = data.specDTitle;
+            document.getElementById('spec-d-desc').innerText = data.specDDesc;
+            document.getElementById('spec-m-title').innerText = data.specMTitle;
+            document.getElementById('spec-m-desc').innerText = data.specMDesc;
+
+            document.getElementById('govt-support-label').innerText = data.govtSupport;
+            document.getElementById('subsidy-q').innerText = data.subsidyQ;
+            document.getElementById('subsidy-desc').innerText = data.subsidyDesc;
+            document.getElementById('subsidy-label').innerText = data.subsidyLabel;
+            document.getElementById('subsidy-amount').innerText = data.subsidyAmount;
+            document.getElementById('subsidy-note').innerHTML = `${data.subsidyNote}<br><span class="text-slate-500 font-bold">${data.moeNote}</span>`;
+            
+            document.getElementById('deadline-label').innerText = data.deadlineLabel;
+            document.getElementById('deadline-val').innerText = data.deadlineVal;
+            document.getElementById('deadline-note').innerText = data.deadlineNote;
+            document.getElementById('contact-btn').innerText = data.contactBtn;
+
+            document.getElementById('footer-clc').innerText = data.clc;
+            document.getElementById('footer-contact-title').innerText = data.contactTitle;
+            document.getElementById('footer-addr').innerText = data.address;
+            document.getElementById('footer-links-title').innerText = data.linksTitle;
+            document.getElementById('link-dyu').innerText = data.linkDYU;
+            document.getElementById('link-clc').innerText = data.linkCLC;
+            document.getElementById('link-study').innerText = data.linkStudy;
+
+            lucide.createIcons();
+        }
+
+        window.addEventListener('scroll', () => {
+            const navInfo = document.getElementById('nav-info');
+            const topNav = document.getElementById('top-nav');
+            if (window.scrollY > 200) {
+                navInfo.classList.remove('opacity-0', '-translate-x-4', 'pointer-events-none');
+                navInfo.classList.add('opacity-100', 'translate-x-0');
+                topNav.classList.add('py-2', 'bg-indigo-950');
+                topNav.classList.remove('py-3', 'bg-indigo-900');
+            } else {
+                navInfo.classList.add('opacity-0', '-translate-x-4', 'pointer-events-none');
+                navInfo.classList.remove('opacity-100', 'translate-x-0');
+                topNav.classList.add('py-3', 'bg-indigo-900');
+                topNav.classList.remove('py-2', 'bg-indigo-950');
+            }
+        });
+
+        window.onload = () => changeLang('zh');
+    </script>
+</body>
+</html>

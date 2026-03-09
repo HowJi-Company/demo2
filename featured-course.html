@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大葉大學客製化體驗課程</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
+        .category-card { transition: all 0.3s ease; overflow: hidden; display: flex; flex-direction: column; height: 100%; }
+        .category-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .image-overlay { background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%); }
+        .card-img-container { height: 220px; position: relative; }
+        
+        input[type="checkbox"] {
+            width: 1.15rem;
+            height: 1.15rem;
+            accent-color: #1e3a8a;
+            cursor: pointer;
+        }
+
+        .step-card {
+            @apply bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col items-center text-center transition-all hover:shadow-md;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 pt-12">
+
+    <!-- 導覽列 -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-50 py-3 px-4 md:px-8 flex justify-between items-center transition-all duration-300">
+        
+        <!-- 左側：大葉大學 LOGO 與 標題 (往下捲動時顯示) -->
+        <div id="nav-brand" class="flex items-center gap-3 opacity-0 -translate-y-4 pointer-events-none transition-all duration-300 ease-out">
+            <img id="nav-logo-img" src="https://studyat.dyu.edu.tw/images/logo.png" alt="DYU Logo" class="h-8 object-contain" 
+                 onerror="this.classList.add('hidden'); document.getElementById('nav-icon').classList.remove('hidden');">
+            <i id="nav-icon" class="fa-solid fa-graduation-cap text-blue-900 text-2xl hidden"></i>
+            <span class="font-bold text-blue-900 text-sm md:text-lg hidden sm:block tracking-wide" id="nav-title">大葉大學客製化體驗課程</span>
+        </div>
+
+        <!-- 右側：語言下拉選單 -->
+        <div class="relative group ml-auto">
+            <button class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-blue-900 px-4 py-2 rounded-full text-sm font-bold transition cursor-pointer border border-slate-200 shadow-sm">
+                <i class="fa-solid fa-globe"></i>
+                <span id="current-lang-text">繁中</span>
+                <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
+            </button>
+            <!-- 下拉內容 -->
+            <div class="absolute right-0 top-full mt-2 w-32 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right overflow-hidden">
+                <div class="py-1 flex flex-col">
+                    <button onclick="setLanguage('zh')" class="px-4 py-3 text-left text-sm hover:bg-amber-50 hover:text-amber-600 font-bold transition text-slate-700 border-b border-slate-50">繁中</button>
+                    <button onclick="setLanguage('en')" class="px-4 py-3 text-left text-sm hover:bg-amber-50 hover:text-amber-600 font-bold transition text-slate-700 border-b border-slate-50">English</button>
+                    <button onclick="setLanguage('vi')" class="px-4 py-3 text-left text-sm hover:bg-amber-50 hover:text-amber-600 font-bold transition text-slate-700 border-b border-slate-50">Tiếng Việt</button>
+                    <button onclick="setLanguage('id')" class="px-4 py-3 text-left text-sm hover:bg-amber-50 hover:text-amber-600 font-bold transition text-slate-700 border-b border-slate-50">B. Indo</button>
+                    <button onclick="setLanguage('ja')" class="px-4 py-3 text-left text-sm hover:bg-amber-50 hover:text-amber-600 font-bold transition text-slate-700 border-b border-slate-50">日本語</button>
+                    <button onclick="setLanguage('mn')" class="px-4 py-3 text-left text-sm hover:bg-amber-50 hover:text-amber-600 font-bold transition text-slate-700">Монгол</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄區塊 -->
+    <header class="relative bg-blue-900 text-white overflow-hidden min-h-[60vh] flex items-center">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1920" 
+                 alt="Campus" class="w-full h-full object-cover opacity-30" 
+                 onerror="this.src='https://via.placeholder.com/1920x1080?text=DYU+Campus'">
+            <div class="absolute inset-0 bg-gradient-to-b from-blue-900/60 to-blue-900"></div>
+        </div>
+        <div class="relative max-w-6xl mx-auto px-6 py-20 text-center">
+            <span id="hero-badge" class="inline-block bg-amber-400 text-blue-900 px-4 py-1 rounded-full font-bold text-sm mb-4 uppercase tracking-wider shadow-sm">
+                Build Your Custom Program
+            </span>
+            <h1 id="hero-title" class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-md">
+                Design Your Perfect Experience <br>at Da-Yeh University
+            </h1>
+            <p id="hero-desc" class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Explore our full course catalog across 7 colleges. Select the modules that fit your school's needs and create a personalized study abroad journey in Taiwan.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#catalog" id="btn-browse" class="bg-amber-400 text-blue-900 px-8 py-4 rounded-full font-bold hover:bg-amber-300 transition duration-300 shadow-xl scale-100 hover:scale-105">View All Courses</a>
+                <a href="#process" id="btn-apply" class="border-2 border-white px-8 py-4 rounded-full font-bold hover:bg-white hover:text-blue-900 transition duration-300">View Application Process</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 課程目錄 -->
+    <main id="catalog" class="max-w-7xl mx-auto px-6 py-24">
+        <div class="text-center mb-16">
+            <h2 id="menu-title" class="text-3xl md:text-5xl font-bold mb-6 text-slate-800">Course Catalog Menu</h2>
+            <div class="w-24 h-2 bg-amber-400 mx-auto rounded-full"></div>
+            <p id="menu-subtitle" class="text-slate-500 mt-6 text-lg italic">Check the courses you are interested in to build your custom itinerary.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" id="catalog-container">
+            <!-- 內容由 JS 動態注入 -->
+        </div>
+    </main>
+
+    <!-- 選擇摘要與費用估算區塊 (常駐) -->
+    <section id="selection-summary" class="max-w-6xl mx-auto px-6 mb-24">
+        <div class="bg-white rounded-3xl shadow-2xl border-2 border-amber-400 overflow-hidden">
+            <div class="bg-amber-400 p-4 flex justify-between items-center">
+                <h3 id="summary-title" class="font-bold text-blue-900 text-xl flex items-center">
+                    <i class="fa-solid fa-calculator mr-3"></i> Custom Quote Builder
+                </h3>
+                <span id="selected-count-badge" class="bg-blue-900 text-white px-3 py-1 rounded-full text-xs font-bold">0 Selected</span>
+            </div>
+            
+            <div class="p-8">
+                <!-- 已選課程標籤區域 -->
+                <div id="selected-list" class="flex flex-wrap gap-2 mb-8 pb-6 border-b border-slate-100 font-medium empty:hidden">
+                    <!-- 選中的課程標籤 -->
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+                    <!-- 參數輸入欄 -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <h4 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-users mr-2 text-blue-500"></i><span id="label-group">Group Size</span></h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label id="label-students" class="text-xs font-bold text-slate-400 uppercase block mb-1">Number of Students</label>
+                                <input type="number" id="input-students" value="20" min="1" oninput="updateSelectionSummary()" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                            </div>
+                            <div>
+                                <label id="label-teachers" class="text-xs font-bold text-slate-400 uppercase block mb-1">Number of Teachers</label>
+                                <input type="number" id="input-teachers" value="2" min="0" oninput="updateSelectionSummary()" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                            </div>
+                            <div>
+                                <label id="label-tour-days" class="text-xs font-bold text-slate-400 uppercase block mb-1">Culture Tour Days</label>
+                                <input type="number" id="input-tour-days" value="0" min="0" oninput="updateSelectionSummary()" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 服務選項 -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <h4 class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-bell-concierge mr-2 text-blue-500"></i><span id="label-services">Additional Services</span></h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition border border-transparent hover:border-blue-100">
+                                <input type="checkbox" id="check-catering" onchange="updateSelectionSummary()">
+                                <span id="label-check-catering" class="ml-3 text-sm font-medium">Daily Catering</span>
+                            </label>
+                            <label class="flex items-center p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition border border-transparent hover:border-blue-100">
+                                <input type="checkbox" id="check-stay" onchange="updateSelectionSummary()">
+                                <span id="label-check-stay" class="ml-3 text-sm font-medium">On-campus Housing</span>
+                            </label>
+                            <label class="flex items-center p-3 bg-slate-50 rounded-xl cursor-pointer hover:bg-slate-100 transition border border-transparent hover:border-blue-100">
+                                <input type="checkbox" id="check-airport" onchange="updateSelectionSummary()">
+                                <span id="label-check-airport" class="ml-3 text-sm font-medium">Airport Transfer</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 試算結果顯示 -->
+                    <div class="lg:col-span-1 space-y-4">
+                        <div class="bg-blue-900 text-white p-6 rounded-3xl shadow-xl border border-blue-800">
+                            <span id="label-duration" class="text-blue-300 text-xs font-bold uppercase tracking-widest block mb-1">Estimated Duration</span>
+                            <div class="flex items-baseline mb-4 border-b border-blue-800 pb-4 flex-wrap">
+                                <span id="display-duration-string" class="text-lg font-black text-amber-400 leading-tight">0 Days (Course Hours: 0 hrs)</span>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <span id="label-total-cost" class="text-blue-300 text-xs font-bold uppercase tracking-widest block mb-1">Total Estimated Cost</span>
+                                    <div class="flex items-baseline">
+                                        <span class="text-amber-400 font-bold mr-1 text-sm">NT$</span>
+                                        <span id="display-total-cost" class="text-3xl font-black tracking-tighter text-amber-400">0</span>
+                                    </div>
+                                    <p id="label-tax-note" class="text-[10px] text-blue-400 mt-1 italic leading-tight">*(Inc. Management Fee)</p>
+                                </div>
+                                <div class="pt-4 border-t border-blue-800">
+                                    <span id="label-avg-cost" class="text-blue-300 text-xs font-bold uppercase tracking-widest block mb-1">Avg. Cost per Student</span>
+                                    <div class="flex items-baseline">
+                                        <span class="text-white font-bold mr-1 text-sm">NT$</span>
+                                        <span id="display-avg-cost" class="text-3xl font-black tracking-tighter text-white">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 整合後的 Note 方塊 -->
+                        <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200 space-y-2">
+                            <p class="text-[11px] text-slate-500 leading-relaxed" id="label-disclaimer">
+                                <i class="fa-solid fa-circle-info mr-1 text-blue-500"></i>
+                                <strong>Note:</strong> This estimation is for reference only. Actual pricing will be provided in the formal quote.
+                            </p>
+                            <p class="text-[11px] text-slate-400 leading-relaxed italic" id="label-days-desc">
+                                *Base 2 days included only if both Housing & Airport Transfer are selected. (Rounded to full days)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 需求送出按鈕 -->
+                <div class="mt-8 pt-8 border-t border-slate-100 flex justify-center">
+                    <button id="main-inquiry-btn" onclick="sendInquiryEmail()" class="w-full md:w-2/3 lg:w-1/2 bg-amber-400 text-blue-900 py-4 rounded-2xl font-black hover:bg-amber-300 transition-all shadow-xl hover:shadow-amber-200/40 flex items-center justify-center gap-3 group text-lg">
+                        <i class="fa-solid fa-paper-plane group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                        <span id="btn-send-inquiry">Send Requirements via Email</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 報名流程區塊 (橫向排版) -->
+    <section class="bg-white py-24 border-t border-slate-200" id="process">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 id="facts-title" class="text-3xl md:text-5xl font-bold mb-4 text-blue-900">Application Process</h2>
+                <div class="w-16 h-1 bg-amber-400 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 步驟 1 -->
+                <div class="step-card group">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-900 rounded-2xl flex items-center justify-center mb-6 font-bold text-2xl group-hover:bg-blue-900 group-hover:text-white transition-colors duration-300 border border-blue-100">1</div>
+                    <h4 id="fact1-h" class="font-bold text-xl mb-3 text-slate-800">Select & Submit</h4>
+                    <p id="fact1-p" class="text-slate-500 text-sm leading-relaxed">Select your desired courses and email the list to our office.</p>
+                </div>
+                <!-- 步驟 2 -->
+                <div class="step-card group">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-900 rounded-2xl flex items-center justify-center mb-6 font-bold text-2xl group-hover:bg-blue-900 group-hover:text-white transition-colors duration-300 border border-blue-100">2</div>
+                    <h4 id="fact2-h" class="font-bold text-xl mb-3 text-slate-800">Custom Needs</h4>
+                    <p id="fact2-p" class="text-slate-500 text-sm leading-relaxed">Specify if your group requires housing, catering, or specific transport.</p>
+                </div>
+                <!-- 步驟 3 -->
+                <div class="step-card group">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-900 rounded-2xl flex items-center justify-center mb-6 font-bold text-2xl group-hover:bg-blue-900 group-hover:text-white transition-colors duration-300 border border-blue-100">3</div>
+                    <h4 id="fact3-h" class="font-bold text-xl mb-3 text-slate-800">Quote & Confirm</h4>
+                    <p id="fact3-p" class="text-slate-500 text-sm leading-relaxed">Official project quote will be provided after receipt of your requirements.</p>
+                </div>
+                <!-- 步驟 4 -->
+                <div class="step-card group border-amber-200 bg-amber-50/20">
+                    <div class="w-14 h-14 bg-amber-400 text-blue-900 rounded-2xl flex items-center justify-center mb-6 font-bold text-2xl group-hover:bg-blue-900 group-hover:text-white transition-colors duration-300 shadow-sm">4</div>
+                    <h4 id="fact4-h" class="font-bold text-xl mb-3 text-slate-800">Official Support</h4>
+                    <p id="fact4-p" class="text-slate-500 text-sm leading-relaxed">We provide official receipts and formal invitation letters for visa needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="bg-slate-900 text-white py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                <!-- 左側：品牌與官方連結 -->
+                <div class="space-y-10">
+                    <div>
+                        <h2 class="text-4xl font-black mb-3 tracking-tighter text-white">Da-Yeh University</h2>
+                        <p id="footer-slogan" class="text-slate-400 italic text-xl">"Deeply Local, Aiming Global."</p>
+                    </div>
+                    <div class="space-y-4">
+                        <h4 class="text-amber-400 font-bold uppercase tracking-widest text-xs" id="footer-link-title">Admission Support</h4>
+                        <a href="https://studyat.dyu.edu.tw" target="_blank" class="inline-flex items-center gap-4 bg-slate-800 hover:bg-amber-400 hover:text-blue-900 px-8 py-4 rounded-2xl transition-all duration-300 group shadow-lg">
+                            <span id="label-admission-web" class="font-black">Official Admission Website</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 右側：聯絡資訊 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <!-- 校址與電話 -->
+                    <div class="space-y-6">
+                        <h4 class="text-amber-400 font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot"></i> <span id="footer-contact-title">Contact Info</span>
+                        </h4>
+                        <div class="space-y-4">
+                            <div>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase mb-1" id="label-footer-addr">Address</p>
+                                <p class="text-sm leading-relaxed text-slate-300" id="footer-addr-text">No. 168, Xuefu Rd., Dacun Township, Changhua County 515006, Taiwan (R.O.C.)</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-500 font-bold uppercase mb-1" id="label-footer-tel">Official Tel</p>
+                                <p class="text-sm text-slate-300 font-medium">+886-4-8511888</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 電子郵件 -->
+                    <div class="space-y-6">
+                        <h4 class="text-amber-400 font-bold uppercase tracking-widest text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-envelope"></i> <span>Direct Inquiry</span>
+                        </h4>
+                        <div>
+                            <p class="text-[10px] text-slate-500 font-bold uppercase mb-1" id="label-footer-email">Email Office</p>
+                            <a href="mailto:int.dyu@mail.dyu.edu.tw" class="text-sm font-medium text-slate-300 hover:text-amber-400 transition break-all">int.dyu@mail.dyu.edu.tw</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部版權 -->
+            <div class="mt-20 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <p class="text-slate-500 text-xs leading-relaxed">
+                    &copy; 2026 DYU Office of International Affairs. All rights reserved.
+                </p>
+                <p class="text-slate-600 text-[10px] uppercase tracking-widest font-medium">Da-Yeh University | Changhua, Taiwan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'zh';
+
+        // 將架構改為純配置，文案部分移至 translations 讓多國語系可以完整覆蓋
+        const fixedCategories = [
+            { id: "culture", icon: "fa-earth-asia", img: "https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&q=80&w=800", hours: [3, 2, 2, 4, 3] },
+            { id: "engineering", icon: "fa-microchip", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800", hours: [3, 4, 3, 3, 2] },
+            { id: "culinary", icon: "fa-utensils", img: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800", hours: [2, 3, 2, 2, 3] },
+            { id: "arts", icon: "fa-palette", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=800", hours: [3, 4, 3, 3, 3] },
+            { id: "health", icon: "fa-heart-pulse", img: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&q=80&w=800", hours: [2, 2, 3, 3, 2] },
+            { id: "management", icon: "fa-chart-line", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800", hours: [2, 2, 3, 3] },
+            { id: "biotech", icon: "fa-leaf", img: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800", hours: [3, 2, 3, 3, 3, 4] }
+        ];
+
+        const translations = {
+            en: {
+                navTitle: "DYU Custom Program",
+                heroBadge: "Build Your Custom Program",
+                heroTitle: "Design Your Perfect Experience <br>at Da-Yeh University",
+                heroDesc: "Explore our full course catalog across 7 colleges. Select modules that fit your school's needs.",
+                btnBrowse: "View All Courses",
+                btnApply: "Application Process",
+                menuTitle: "Course Catalog Menu",
+                menuSubtitle: "Check courses to build your itinerary and estimate costs.",
+                summaryTitle: "Custom Quote Builder",
+                labelDuration: "Estimated Duration",
+                labelUnitDays: "Days",
+                labelCourseHours: "Course Hours",
+                labelTotalCost: "Total Estimated Cost",
+                labelAvgCost: "Avg. Cost per Student",
+                labelGroup: "Group Details",
+                labelStudents: "Number of Students",
+                labelTeachers: "Number of Teachers",
+                labelTourDays: "Culture Tour Days",
+                labelServices: "Additional Services",
+                labelCheckCatering: "Daily Catering",
+                labelCheckStay: "On-campus Housing",
+                labelCheckAirport: "Airport Transfer",
+                labelTaxNote: "*(Includes Management Fee)",
+                labelDisclaimer: "<strong>Note:</strong> This estimation is for reference only. Actual pricing will be provided in the formal quote.",
+                labelDaysDesc: "*Base 2 days included only if both Housing & Airport Transfer are selected.",
+                btnSendInquiry: "Send Requirements via Email",
+                selectedSuffix: " Selected",
+                factsTitle: "Application Process",
+                fact1H: "1. Select & Submit", fact1P: "Select desired courses and email the list to the Office.",
+                fact2H: "2. Custom Needs", fact2P: "Indicate housing, catering, or specific transport.",
+                fact3H: "3. Quote & Confirmation", fact3P: "Formal project quote will be provided after review.",
+                fact4H: "4. Official Support", fact4P: "We provide official receipts and visa invitation letters.",
+                footerContactTitle: "Contact Info",
+                footerLinkTitle: "Admission Support",
+                labelFooterEmail: "Email Office",
+                labelFooterAddr: "Address",
+                labelFooterTel: "Official Tel",
+                labelAdmissionWeb: "Official Admission Website",
+                addrText: "No. 168, Xuefu Rd., Dacun Township, Changhua County 515006, Taiwan (R.O.C.)",
+                unit: "hrs",
+                btnSelectAll: "Select All",
+                categories: {
+                    culture: { name: "Cultural Heritage & Arts", courses: ["Japanese Yokai & Folklore", "Shrine & Temple Etiquette", "Traditional Origami Crafts", "Lukang Heritage Walking Tour", "Yuanlin Local Food Tour"] },
+                    engineering: { name: "Smart Engineering & AI", courses: ["AI & IoT Application Lab", "GWO Wind Power Certification", "Disaster Prevention Tech", "Smart Robotics Lab", "Environmental Sustainability"] },
+                    culinary: { name: "Culinary Arts & Tourism", courses: ["Taiwanese Pineapple Cakes", "Taichung Sun Cake Baking", "Chocolate Lava Gourmet", "Coffee Latte Art Masterclass", "Outdoor Recreation Program"] },
+                    arts: { name: "Creative Design & Crafts", courses: ["Indigo Dyeing Crafts", "Metalwork & Jewelry Design", "Ceramic Art Workshop", "Wood Carving & Joinery", "AR Game Production"] },
+                    health: { name: "Nursing & Health Science", courses: ["Elderly Empathy Simulation", "Pregnancy Experience Lab", "3D Medical Printing", "Athletic Recovery & Taping", "Aerobic Party & Spinning"] },
+                    management: { name: "Global Business & Innovation", courses: ["Digital Marketing Strategy", "AI in Business Management", "Creative Entrepreneurship", "Cross-Cultural Management"] },
+                    biotech: { name: "Life Science & Green Beauty", courses: ["Essential Oil Extraction", "Handmade Soap Crafting", "Cosmetic Formulation", "Traditional Fermentation", "Herbal Medicine Science", "Gene Editing Lab"] }
+                }
+            },
+            zh: {
+                navTitle: "大葉大學客製化體驗課程",
+                heroBadge: "打造您的客製化行程",
+                heroTitle: "客製化您在大葉大學<br>的完美遊學體驗",
+                heroDesc: "探索七大學院的完整特色體驗課程清單。根據學校或個人的需求訂製一場完美的盛宴。",
+                btnBrowse: "查看所有課程",
+                btnApply: "瀏覽報名流程",
+                menuTitle: "課程選單目錄",
+                menuSubtitle: "勾選感興趣課程，系統將自動估算所需天數與預估費用。",
+                summaryTitle: "客製化方案報價試算",
+                labelDuration: "預估行程天數",
+                labelUnitDays: "天",
+                labelCourseHours: "體驗課程時數",
+                labelTotalCost: "專案估價總額",
+                labelAvgCost: "學生每人平均費用",
+                labelGroup: "團體詳情",
+                labelStudents: "參與學生人數",
+                labelTeachers: "跟團老師人數",
+                labelTourDays: "文化體驗旅遊 (天)",
+                labelServices: "額外加購服務",
+                labelCheckCatering: "包含每日餐飲",
+                labelCheckStay: "包含校內住宿",
+                labelCheckAirport: "來回機場接送",
+                labelTaxNote: "*(已包含管理費)",
+                labelDisclaimer: "<strong>備註：</strong>目前網頁費用僅供試算參考。正式報價請以本校國際處回覆之報價單為主。",
+                labelDaysDesc: "*僅當同時選擇「住宿」與「接送」時，才加入基礎 2 天 (抵離交通)。",
+                btnSendInquiry: "透過 Email 發送需求清單",
+                selectedSuffix: " 個項目",
+                factsTitle: "報名流程",
+                fact1H: "1. 挑選課程並提交清單", fact1P: "請自行勾選想要課程，並將清單寄至國際處 (int.dyu@mail.dyu.edu.tw)。",
+                fact2H: "2. 加註食宿與客製需求", fact2P: "如需飲食安排、校內住宿或特定交通，請於郵件中詳加註記。",
+                fact3H: "3. 材料報價與正式確認", fact3P: "部分課程涉及材料費。我們將依據選擇提供正式專案報價。",
+                fact4H: "4. 證件支援與收據開立", fact4P: "報名完成後可開立正式收據，辦簽證需要證明可提供正式邀請函。",
+                footerContactTitle: "聯絡資訊",
+                footerLinkTitle: "入學招生服務",
+                labelFooterEmail: "辦公室電子郵件",
+                labelFooterAddr: "校址",
+                labelFooterTel: "官方總機",
+                labelAdmissionWeb: "大葉大學官方招生網站",
+                addrText: "515006 彰化縣大村鄉學府路168號",
+                unit: "小時",
+                btnSelectAll: "全選",
+                categories: {
+                    culture: { name: "文化遺產與藝術", courses: ["日本妖怪與民間傳說", "神社與寺廟禮儀", "傳統摺紙工藝", "鹿港文化遺產徒步之旅", "員林在地美食之旅"] },
+                    engineering: { name: "智慧工程與人工智慧", courses: ["AI與物聯網應用實驗室", "GWO風力發電認證", "防災科技", "智慧機器人實驗室", "環境永續發展"] },
+                    culinary: { name: "廚藝與觀光", courses: ["台灣鳳梨酥製作", "台中太陽餅烘焙", "熔岩巧克力美食", "咖啡拉花大師課", "戶外休閒活動"] },
+                    arts: { name: "創意設計與工藝", courses: ["藍染工藝", "金工與珠寶設計", "陶瓷藝術工作坊", "木雕與榫接工藝", "AR遊戲製作"] },
+                    health: { name: "護理與健康科學", courses: ["高齡者同理心體驗", "孕婦體驗實驗室", "3D醫療列印", "運動恢復與貼紮", "有氧派對與飛輪"] },
+                    management: { name: "全球商業與創新", courses: ["數位行銷策略", "AI在商業管理中的應用", "創意創業", "跨文化管理"] },
+                    biotech: { name: "生命科學與綠色美妝", courses: ["精油萃取", "手工皂製作", "化妝品配方", "傳統發酵技術", "草藥科學", "基因編輯實驗室"] }
+                }
+            },
+            vi: {
+                navTitle: "Chương trình Tùy chỉnh DYU",
+                heroBadge: "Xây dựng chương trình",
+                heroTitle: "Thiết kế trải nghiệm hoàn hảo <br>tại Đại học Đại Diệp",
+                heroDesc: "Khám phá danh mục khóa học từ 7 học viện.",
+                btnBrowse: "Xem tất cả khóa học",
+                btnApply: "Quy trình đăng ký",
+                menuTitle: "Danh mục khóa học",
+                menuSubtitle: "Chọn các khóa học để dự toán thời gian và chi phí.",
+                summaryTitle: "Công cụ dự toán báo giá",
+                labelDuration: "Thời gian dự kiến",
+                labelUnitDays: "Ngày",
+                labelCourseHours: "Giờ học",
+                labelTotalCost: "Tổng chi phí dự kiến",
+                labelAvgCost: "Trung bình mỗi sinh viên",
+                labelGroup: "Chi tiết đoàn",
+                labelStudents: "Số sinh viên",
+                labelTeachers: "Số giáo viên",
+                labelTourDays: "Tour văn hóa (Ngày)",
+                labelServices: "Dịch vụ bổ sung",
+                labelCheckCatering: "Bao gồm ăn uống",
+                labelCheckStay: "Bao gồm ký túc xá",
+                labelCheckAirport: "Đưa đón sân bay",
+                labelTaxNote: "*(Đã bao gồm phí quản lý)",
+                labelDisclaimer: "<strong>Lưu ý:</strong> Công cụ này chỉ mang tính tham khảo. Giá chính thức sẽ theo báo giá từ trường.",
+                labelDaysDesc: "*Cơ sở 2 ngày chỉ được tính nếu chọn cả Ký túc xá & Đưa đón sân bay.",
+                btnSendInquiry: "Gửi danh sách qua Email",
+                selectedSuffix: " Đã chọn",
+                factsTitle: "Quy trình đăng ký",
+                fact1H: "1. Chọn & Gửi danh sách", fact1P: "Gửi danh sách khóa học đến (int.dyu@mail.dyu.edu.tw).",
+                fact2H: "2. Yêu cầu tùy chỉnh", fact2P: "Ghi rõ yêu cầu ăn uống, chỗ ở trong email.",
+                fact3H: "3. Báo giá & Xác nhận", fact3P: "Có phí nguyên liệu. Chúng tôi sẽ báo giá chính thức.",
+                fact4H: "4. Hỗ trợ Chứng từ", fact4P: "Cấp biên lai và thư mời xin Visa nếu cần.",
+                footerContactTitle: "Thông tin liên hệ",
+                footerLinkTitle: "Tuyển sinh",
+                labelFooterEmail: "Email Văn phòng",
+                labelFooterAddr: "Địa chỉ",
+                labelFooterTel: "Điện thoại",
+                labelAdmissionWeb: "Trang tuyển sinh chính thức",
+                addrText: "Số 168, đường Xuefu, xã Dacun, huyện Changhua 515006, Đài Loan",
+                unit: "giờ",
+                btnSelectAll: "Chọn Tất Cả",
+                categories: {
+                    culture: { name: "Di sản Văn hóa & Nghệ thuật", courses: ["Yêu quái & Văn hóa dân gian Nhật Bản", "Nghi thức Đền thờ", "Nghệ thuật Gấp giấy Truyền thống", "Tour Đi bộ Di sản Lộc Cảng", "Tour Ẩm thực Địa phương Viên Lâm"] },
+                    engineering: { name: "Kỹ thuật Thông minh & AI", courses: ["Phòng thí nghiệm Ứng dụng AI & IoT", "Chứng nhận Điện gió GWO", "Công nghệ Phòng chống Thiên tai", "Phòng thí nghiệm Robot Thông minh", "Bền vững Môi trường"] },
+                    culinary: { name: "Nghệ thuật Ẩm thực & Du lịch", courses: ["Làm Bánh dứa Đài Loan", "Làm Bánh mặt trời Đài Trung", "Nghệ thuật Socola Lava", "Lớp học Nghệ thuật Latte Cafe", "Chương trình Giải trí Ngoài trời"] },
+                    arts: { name: "Thiết kế Sáng tạo & Thủ công", courses: ["Nhuộm Chàm", "Thiết kế Trang sức & Kim loại", "Xưởng Nghệ thuật Gốm sứ", "Điêu khắc & Ghép Gỗ", "Sản xuất Game AR"] },
+                    health: { name: "Khoa học Sức khỏe & Điều dưỡng", courses: ["Mô phỏng Đồng cảm Người cao tuổi", "Phòng thí nghiệm Trải nghiệm Mang thai", "In Y tế 3D", "Phục hồi & Dán băng Thể thao", "Tiệc Aerobic & Đạp xe Spinning"] },
+                    management: { name: "Quản trị Toàn cầu & Đổi mới", courses: ["Chiến lược Tiếp thị Kỹ thuật số", "AI trong Quản trị Kinh doanh", "Khởi nghiệp Sáng tạo", "Quản lý Đa văn hóa"] },
+                    biotech: { name: "Khoa học Đời sống & Làm đẹp Xanh", courses: ["Chiết xuất Tinh dầu", "Làm Xà phòng Thủ công", "Công thức Mỹ phẩm", "Lên men Truyền thống", "Khoa học Thảo dược", "Phòng thí nghiệm Chỉnh sửa Gen"] }
+                }
+            },
+            id: {
+                navTitle: "Program Kustom DYU",
+                heroBadge: "Bangun Program Kustom",
+                heroTitle: "Desain Pengalaman Sempurna <br>di Universitas Da-Yeh",
+                heroDesc: "Jelajahi katalog kursus lengkap kami di 7 fakultas.",
+                btnBrowse: "Lihat Semua Kursus",
+                btnApply: "Proses Pendaftaran",
+                menuTitle: "Katalog Kursus",
+                menuSubtitle: "Pilih kursus untuk estimasi durasi dan harga.",
+                summaryTitle: "Pembangun Harga Kustom",
+                labelDuration: "Estimasi Durasi",
+                labelUnitDays: "Hari",
+                labelCourseHours: "Jam Kursus",
+                labelTotalCost: "Total Perkiraan Biaya",
+                labelAvgCost: "Rata-rata per Siswa",
+                labelGroup: "Detail Grup",
+                labelStudents: "Jumlah Siswa",
+                labelTeachers: "Jumlah Guru",
+                labelTourDays: "Tur Budaya (Hari)",
+                labelServices: "Layanan Tambahan",
+                labelCheckCatering: "Termasuk Makan",
+                labelCheckStay: "Termasuk Akomodasi",
+                labelCheckAirport: "Antar Jemput Bandara",
+                labelTaxNote: "*(Termasuk Biaya Manajerial)",
+                labelDisclaimer: "<strong>Catatan:</strong> Estimasi ini hanya referensi. Harga resmi akan diberikan melalui email.",
+                labelDaysDesc: "*Basis 2 hari hanya disertakan jika Akomodasi & Antar Jemput dipilih.",
+                btnSendInquiry: "Kirim daftar via Email",
+                selectedSuffix: " Terpilih",
+                factsTitle: "Proses Pendaftaran",
+                fact1H: "1. Pilih & Kirim Daftar", fact1P: "Kirim daftar kursus ke (int.dyu@mail.dyu.edu.tw).",
+                fact2H: "2. Kebutuhan Kustom", fact2P: "Sebutkan kebutuhan akomodasi/makan dalam email.",
+                fact3H: "3. Penawaran & Konfirmasi", fact3P: "Ada biaya material. Kami akan memberikan penawaran formal.",
+                fact4H: "4. Dukungan Dokumen", fact4P: "Kami menerbitkan kuitansi dan surat undangan visa.",
+                footerContactTitle: "Informasi Kontak",
+                footerLinkTitle: "Penerimaan",
+                labelFooterEmail: "Email Kantor",
+                labelFooterAddr: "Alamat",
+                labelFooterTel: "Telepon",
+                labelAdmissionWeb: "Situs Penerimaan Resmi",
+                addrText: "No. 168, Xuefu Rd., Dacun Township, Changhua County 515006, Taiwan",
+                unit: "jam",
+                btnSelectAll: "Pilih Semua",
+                categories: {
+                    culture: { name: "Warisan Budaya & Seni", courses: ["Yokai & Cerita Rakyat Jepang", "Etiket Kuil", "Kerajinan Origami Tradisional", "Tur Jalan Kaki Warisan Lukang", "Tur Makanan Lokal Yuanlin"] },
+                    engineering: { name: "Teknik Pintar & AI", courses: ["Lab Aplikasi AI & IoT", "Sertifikasi Tenaga Angin GWO", "Teknologi Pencegahan Bencana", "Lab Robotika Pintar", "Keberlanjutan Lingkungan"] },
+                    culinary: { name: "Seni Kuliner & Pariwisata", courses: ["Pembuatan Kue Nanas Taiwan", "Pembuatan Kue Matahari Taichung", "Kuliner Cokelat Lava", "Kelas Master Seni Latte Kopi", "Program Rekreasi Luar Ruangan"] },
+                    arts: { name: "Desain Kreatif & Kerajinan", courses: ["Pencelupan Nila", "Desain Perhiasan & Logam", "Lokakarya Seni Keramik", "Ukiran Kayu & Penyambungan", "Produksi Game AR"] },
+                    health: { name: "Ilmu Keperawatan & Kesehatan", courses: ["Simulasi Empati Lansia", "Lab Pengalaman Kehamilan", "Pencetakan Medis 3D", "Pemulihan Atletik & Taping", "Pesta Aerobik & Spinning"] },
+                    management: { name: "Bisnis Global & Inovasi", courses: ["Strategi Pemasaran Digital", "AI dalam Manajemen Bisnis", "Kewirausahaan Kreatif", "Manajemen Lintas Budaya"] },
+                    biotech: { name: "Ilmu Hayati & Kecantikan Hijau", courses: ["Ekstraksi Minyak Atsiri", "Kerajinan Sabun Buatan Tangan", "Formulasi Kosmetik", "Fermentasi Tradisional", "Ilmu Pengobatan Herbal", "Lab Pengeditan Gen"] }
+                }
+            },
+            ja: {
+                navTitle: "大葉大学カスタムプログラム",
+                heroBadge: "カスタムプログラムを作成",
+                heroTitle: "大葉大学で<br>あなただけの完璧な体験を",
+                heroDesc: "7つの学部の全コースカタログをご覧ください。学校のニーズに合ったモジュールを選択してください。",
+                btnBrowse: "全コースを見る",
+                btnApply: "申請プロセスの確認",
+                menuTitle: "コースカタログメニュー",
+                menuSubtitle: "興味のあるコースをチェックして、日程と費用を見積もります。",
+                summaryTitle: "カスタム見積もり作成ツール",
+                labelDuration: "推定所要日数",
+                labelUnitDays: "日",
+                labelCourseHours: "コース時間",
+                labelTotalCost: "推定総費用",
+                labelAvgCost: "学生1人当たりの平均費用",
+                labelGroup: "グループ詳細",
+                labelStudents: "学生数",
+                labelTeachers: "教員数",
+                labelTourDays: "文化ツアー (日数)",
+                labelServices: "追加サービス",
+                labelCheckCatering: "毎日の食事",
+                labelCheckStay: "キャンパス内宿泊",
+                labelCheckAirport: "空港送迎",
+                labelTaxNote: "*(管理費を含む)",
+                labelDisclaimer: "<strong>注意：</strong>この見積もりは参考用です。実際の価格は正式な見積書にてご提示いたします。",
+                labelDaysDesc: "*宿泊と空港送迎の両方が選択された場合のみ、基本の2日間（到着・出発日）が含まれます。",
+                btnSendInquiry: "メールで要件を送信する",
+                selectedSuffix: " 個選択中",
+                factsTitle: "申請プロセス",
+                fact1H: "1. 選択と送信", fact1P: "希望するコースを選択し、リストをオフィスにメールで送信します。",
+                fact2H: "2. カスタム要件", fact2P: "宿泊、食事、または特定の交通手段が必要な場合は明記してください。",
+                fact3H: "3. 見積もりと確認", fact3P: "要件を受領した後、正式なプロジェクト見積もりが提供されます。",
+                fact4H: "4. 公式サポート", fact4P: "ビザ申請用の公式領収書と招待状を提供します。",
+                footerContactTitle: "連絡先情報",
+                footerLinkTitle: "入学サポート",
+                labelFooterEmail: "オフィスのメール",
+                labelFooterAddr: "住所",
+                labelFooterTel: "公式電話番号",
+                labelAdmissionWeb: "公式入学ウェブサイト",
+                addrText: "台湾 彰化県大村郷学府路168号 (郵便番号: 515006)",
+                unit: "時間",
+                btnSelectAll: "すべて選択",
+                categories: {
+                    culture: { name: "文化遺産と芸術", courses: ["日本の妖怪と民間伝承", "神社仏閣の作法", "伝統的な折り紙工芸", "鹿港（ルーガン）遺産ウォーキングツアー", "員林（ユエンリン）地元グルメツアー"] },
+                    engineering: { name: "スマートエンジニアリングとAI", courses: ["AIとIoT応用ラボ", "GWO風力発電認証", "防災技術", "スマートロボティクスラボ", "環境の持続可能性"] },
+                    culinary: { name: "料理芸術と観光", courses: ["台湾パイナップルケーキ作り", "台中太陽餅作り", "フォンダンショコラ作り", "コーヒーラテアート教室", "アウトドアレクリエーションプログラム"] },
+                    arts: { name: "クリエイティブデザインと工芸", courses: ["藍染め工芸", "金工とジュエリーデザイン", "陶芸ワークショップ", "木彫りと接合工芸", "ARゲーム制作"] },
+                    health: { name: "看護と健康科学", courses: ["高齢者共感シミュレーション", "妊婦体験ラボ", "3D医療プリント", "スポーツリカバリーとテーピング", "エアロビクスパーティーとスピニング"] },
+                    management: { name: "グローバルビジネスとイノベーション", courses: ["デジタルマーケティング戦略", "ビジネス管理におけるAI", "クリエイティブな起業家精神", "異文化マネジメント"] },
+                    biotech: { name: "生命科学とグリーンビューティー", courses: ["エッセンシャルオイル抽出", "手作り石鹸クラフト", "化粧品処方", "伝統的な発酵技術", "ハーブ医学科学", "遺伝子編集ラボ"] }
+                }
+            },
+            mn: {
+                navTitle: "Да-Ех Тусгай Хөтөлбөр",
+                heroBadge: "Өөрийн хөтөлбөрийг бүтээнэ үү",
+                heroTitle: "Да-Ех Их Сургуульд<br>Төгс туршлагаа төлөвлө",
+                heroDesc: "Манай 7 бүрэлдэхүүн сургуулийн бүрэн хичээлийн каталогийг сонирхоно уу. Сургуулийнхаа хэрэгцээнд нийцсэн модулиудыг сонгоно уу.",
+                btnBrowse: "Бүх хичээлийг харах",
+                btnApply: "Өргөдөл гаргах үйл явц",
+                menuTitle: "Хичээлийн каталогийн цэс",
+                menuSubtitle: "Үргэлжлэх хугацаа болон зардлыг тооцоолохын тулд сонирхсон хичээлүүдээ сонгоно уу.",
+                summaryTitle: "Үнийн санал тооцоологч",
+                labelDuration: "Тооцоолсон хугацаа",
+                labelUnitDays: "Өдөр",
+                labelCourseHours: "Хичээлийн цаг",
+                labelTotalCost: "Нийт тооцоолсон зардал",
+                labelAvgCost: "Нэг оюутанд ногдох дундаж зардал",
+                labelGroup: "Бүлгийн мэдээлэл",
+                labelStudents: "Оюутны тоо",
+                labelTeachers: "Багшийн тоо",
+                labelTourDays: "Соёлын аялал (Өдөр)",
+                labelServices: "Нэмэлт үйлчилгээ",
+                labelCheckCatering: "Өдөр тутмын хоол",
+                labelCheckStay: "Хотхон доторх байр",
+                labelCheckAirport: "Нисэх буудлын унаа",
+                labelTaxNote: "*(Удирдлагын хураамж орсон)",
+                labelDisclaimer: "<strong>Жич:</strong> Энэхүү тооцоолол нь зөвхөн лавлагаанд зориулагдсан болно. Бодит үнийг албан ёсны үнийн саналаар өгөх болно.",
+                labelDaysDesc: "*Зөвхөн байр болон нисэх онгоцны буудлын унааг хоёуланг нь сонгосон тохиолдолд суурь 2 өдөр нэмэгдэнэ.",
+                btnSendInquiry: "Шаардлагуудыг имэйлээр илгээх",
+                selectedSuffix: " Сонгогдсон",
+                factsTitle: "Өргөдөл гаргах үйл явц",
+                fact1H: "1. Сонгох & Илгээх", fact1P: "Хүссэн хичээлээ сонгоод жагсаалтыг оффис руу имэйлээр илгээнэ үү.",
+                fact2H: "2. Тусгай хэрэгцээ", fact2P: "Байр, хоол, эсвэл тусгай тээврийн хэрэгсэл шаардлагатай эсэхийг имэйлдээ бичнэ үү.",
+                fact3H: "3. Үнийн санал & Баталгаажуулах", fact3P: "Таны шаардлагыг хүлээн авсны дараа төслийн албан ёсны үнийн саналыг өгөх болно.",
+                fact4H: "4. Албан ёсны дэмжлэг", fact4P: "Бид визний хэрэгцээнд зориулан албан ёсны төлбөрийн баримт болон урилга өгдөг.",
+                footerContactTitle: "Холбоо барих мэдээлэл",
+                footerLinkTitle: "Элсэлтийн дэмжлэг",
+                labelFooterEmail: "Оффисын имэйл",
+                labelFooterAddr: "Хаяг",
+                labelFooterTel: "Албан ёсны утас",
+                labelAdmissionWeb: "Элсэлтийн албан ёсны вэбсайт",
+                addrText: "Тайвань, Жанхуа муж 515006, Дацүн сум, Шүэфү зам, 168 тоот",
+                unit: "цаг",
+                btnSelectAll: "Бүгдийг сонгох",
+                categories: {
+                    culture: { name: "Соёлын өв ба урлаг", courses: ["Японы Ёокай ба ардын аман зохиол", "Сүм хийдийн ёс зүй", "Уламжлалт оригами урлал", "Лугангийн соёлын өвийн явган аялал", "Юаньлин орон нутгийн хоолны аялал"] },
+                    engineering: { name: "Ухаалаг инженерчлэл ба хиймэл оюун ухаан", courses: ["AI ба IoT хэрэглээний лаборатори", "GWO салхины эрчим хүчний гэрчилгээ", "Гамшгаас урьдчилан сэргийлэх технологи", "Ухаалаг робот техникийн лаборатори", "Байгаль орчны тогтвортой байдал"] },
+                    culinary: { name: "Хоолны урлаг ба аялал жуулчлал", courses: ["Тайванийн хан боргоцойн бялуу хийх", "Тайжун нарны бялуу жигнэх", "Хайлмаг шоколадтай амттан", "Кофены латте урлагийн мастер класс", "Гадаа амралт чөлөөт цагийн хөтөлбөр"] },
+                    arts: { name: "Бүтээлч дизайн ба гар урлал", courses: ["Индиго будах гар урлал", "Төмрийн дархан ба үнэт эдлэлийн дизайн", "Керамик урлагийн цех", "Мод сийлбэр ба мужаан", "AR тоглоом бүтээх"] },
+                    health: { name: "Сувилахуй ба эрүүл мэндийн шинжлэх ухаан", courses: ["Ахмад настныг ойлгох загварчлал", "Жирэмсний туршлагын лаборатори", "3D эмнэлгийн хэвлэл", "Спортын сэргээн засах ба туузлах", "Аэробик үдэшлэг ба дугуй унах"] },
+                    management: { name: "Дэлхийн бизнес ба инноваци", courses: ["Дижитал маркетингийн стратеги", "Бизнесийн удирдлага дахь хиймэл оюун ухаан", "Бүтээлч энтрепренёршип", "Соёл хоорондын менежмент"] },
+                    biotech: { name: "Амьдралын шинжлэх ухаан ба ногоон гоо сайхан", courses: ["Эфирийн тос гаргаж авах", "Гар хийцийн саван урлах", "Гоо сайхны найрлага", "Уламжлалт исгэх технологи", "Ургамлын гаралтай анагаах ухаан", "Ген засварлах лаборатори"] }
+                }
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+            
+            // 下拉選單文字與 Navbar 標題替換
+            const langMap = { en: "English", zh: "繁中", vi: "Tiếng Việt", id: "B. Indo", ja: "日本語", mn: "Монгол" };
+            document.getElementById('current-lang-text').innerText = langMap[lang];
+            document.getElementById('nav-title').innerText = t.navTitle;
+
+            // Hero
+            document.getElementById('hero-badge').innerText = t.heroBadge;
+            document.getElementById('hero-title').innerHTML = t.heroTitle;
+            document.getElementById('hero-desc').innerText = t.heroDesc;
+            document.getElementById('btn-browse').innerText = t.btnBrowse;
+            document.getElementById('btn-apply').innerText = t.btnApply;
+            document.getElementById('menu-title').innerText = t.menuTitle;
+            document.getElementById('menu-subtitle').innerText = t.menuSubtitle;
+            
+            // Builder
+            document.getElementById('summary-title').innerHTML = `<i class="fa-solid fa-calculator mr-3"></i> ${t.summaryTitle}`;
+            document.getElementById('label-duration').innerText = t.labelDuration;
+            document.getElementById('label-total-cost').innerText = t.labelTotalCost;
+            document.getElementById('label-avg-cost').innerText = t.labelAvgCost;
+            document.getElementById('label-group').innerText = t.labelGroup;
+            document.getElementById('label-students').innerText = t.labelStudents;
+            document.getElementById('label-teachers').innerText = t.labelTeachers;
+            document.getElementById('label-tour-days').innerText = t.labelTourDays;
+            document.getElementById('label-services').innerText = t.labelServices;
+            document.getElementById('label-check-catering').innerText = t.labelCheckCatering;
+            document.getElementById('label-check-stay').innerText = t.labelCheckStay;
+            document.getElementById('label-check-airport').innerText = t.labelCheckAirport;
+            document.getElementById('label-tax-note').innerText = t.labelTaxNote;
+            document.getElementById('label-disclaimer').innerHTML = `<i class="fa-solid fa-circle-info mr-1 text-blue-500"></i> ${t.labelDisclaimer}`;
+            document.getElementById('label-days-desc').innerText = t.labelDaysDesc;
+            
+            const btnSend = document.getElementById('btn-send-inquiry');
+            if (btnSend) btnSend.innerText = t.btnSendInquiry;
+
+            // Process
+            document.getElementById('facts-title').innerText = t.factsTitle;
+            document.getElementById('fact1-h').innerText = t.fact1H; document.getElementById('fact1-p').innerText = t.fact1P;
+            document.getElementById('fact2-h').innerText = t.fact2H; document.getElementById('fact2-p').innerText = t.fact2P;
+            document.getElementById('fact3-h').innerText = t.fact3H; document.getElementById('fact3-p').innerText = t.fact3P;
+            document.getElementById('fact4-h').innerText = t.fact4H; document.getElementById('fact4-p').innerText = t.fact4P;
+
+            // Footer
+            document.getElementById('footer-contact-title').innerText = t.footerContactTitle;
+            document.getElementById('footer-link-title').innerText = t.footerLinkTitle;
+            document.getElementById('label-footer-email').innerText = t.labelFooterEmail;
+            document.getElementById('label-footer-addr').innerText = t.labelFooterAddr;
+            document.getElementById('label-footer-tel').innerText = t.labelFooterTel;
+            document.getElementById('label-admission-web').innerText = t.labelAdmissionWeb;
+            document.getElementById('footer-addr-text').innerText = t.addrText;
+
+            // 記憶已選取的課程 ID
+            const checkedIds = Array.from(document.querySelectorAll('.course-checkbox:checked')).map(cb => cb.id);
+
+            const container = document.getElementById('catalog-container');
+            container.innerHTML = '';
+            
+            fixedCategories.forEach(cat => {
+                const catData = t.categories[cat.id]; // 從翻譯檔獲取分類與課程文字
+                let courseHTML = cat.hours.map((hours, index) => {
+                    const name = catData.courses[index];
+                    const courseId = `${cat.id}-course-${index}`;
+                    return `
+                        <div class="flex items-center mb-3 px-6 group">
+                            <input type="checkbox" id="${courseId}" 
+                                   data-module="${cat.id}" data-hours="${hours}" data-name="${name}"
+                                   onchange="updateSelectionSummary()"
+                                   class="course-checkbox border-slate-300 rounded focus:ring-blue-500 transition">
+                            <label for="${courseId}" class="ml-3 text-sm text-slate-600 font-medium cursor-pointer group-hover:text-blue-900 transition leading-tight">
+                                ${name} <span class="text-[10px] text-slate-400 ml-1">(${hours} ${t.unit})</span>
+                            </label>
+                        </div>
+                    `;
+                }).join('');
+
+                container.innerHTML += `
+                    <div class="category-card bg-white rounded-3xl shadow-lg border border-slate-100">
+                        <div class="card-img-container">
+                            <img src="${cat.img}" alt="${catData.name}" class="w-full h-full object-cover rounded-t-3xl" 
+                                 onerror="this.src='https://via.placeholder.com/800x600?text=${encodeURIComponent(catData.name)}'">
+                            <div class="absolute inset-0 image-overlay rounded-t-3xl"></div>
+                            <div class="absolute bottom-5 left-6 flex items-center text-white pr-4">
+                                <div class="w-10 h-10 bg-amber-400 text-blue-900 rounded-xl flex items-center justify-center mr-4 shadow-lg shrink-0">
+                                    <i class="fa-solid ${cat.icon} text-lg"></i>
+                                </div>
+                                <h3 class="font-bold text-lg leading-tight">${catData.name}</h3>
+                            </div>
+                        </div>
+                        <div class="py-6 flex-grow">
+                            ${courseHTML}
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-b-3xl border-t border-slate-100">
+                             <button onclick="selectAllInModule('${cat.id}')" class="w-full py-2 px-4 bg-white border border-slate-200 text-slate-600 text-[10px] font-bold rounded-xl hover:bg-amber-400 hover:text-blue-900 hover:border-amber-400 transition uppercase tracking-widest">
+                                <i class="fa-solid fa-check-double mr-2"></i> ${t.btnSelectAll}
+                             </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 恢復已被選取的課程狀態
+            checkedIds.forEach(id => {
+                const cb = document.getElementById(id);
+                if(cb) cb.checked = true;
+            });
+
+            updateSelectionSummary();
+        }
+
+        function updateSelectionSummary() {
+            const t = translations[currentLang];
+            const checkboxes = document.querySelectorAll('.course-checkbox:checked');
+            
+            const numStudents = Math.max(1, parseInt(document.getElementById('input-students').value) || 0);
+            const numTeachers = Math.max(0, parseInt(document.getElementById('input-teachers').value) || 0);
+            const tourDays = Math.max(0, parseInt(document.getElementById('input-tour-days').value) || 0);
+            const isCatering = document.getElementById('check-catering').checked;
+            const isHousing = document.getElementById('check-stay').checked;
+            const isAirport = document.getElementById('check-airport').checked;
+
+            let totalHours = 0;
+            let listHTML = '';
+            checkboxes.forEach(cb => {
+                totalHours += parseInt(cb.getAttribute('data-hours'));
+                listHTML += `
+                    <span class="inline-flex items-center bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs border border-blue-100">
+                        ${cb.getAttribute('data-name')}
+                        <button onclick="uncheckItem('${cb.id}')" class="ml-2 hover:text-red-500"><i class="fa-solid fa-circle-xmark"></i></button>
+                    </span>
+                `;
+            });
+
+            document.getElementById('selected-list').innerHTML = listHTML;
+            document.getElementById('selected-count-badge').innerText = checkboxes.length + t.selectedSuffix;
+
+            if (checkboxes.length === 0) {
+                document.getElementById('display-duration-string').innerText = `0 ${t.labelUnitDays} (${t.labelCourseHours}: 0 ${t.unit})`;
+                document.getElementById('display-total-cost').innerText = "0";
+                document.getElementById('display-avg-cost').innerText = "0";
+                return;
+            }
+
+            const baseDays = (isHousing && isAirport) ? 2 : 0;
+            const courseDays = Math.ceil(totalHours / 3) * 0.5;
+            const rawEstDays = baseDays + courseDays + tourDays;
+            const estDays = Math.ceil(rawEstDays);
+
+            document.getElementById('display-duration-string').innerText = 
+                `${estDays} ${t.labelUnitDays} (${t.labelCourseHours}: ${totalHours} ${t.unit})`;
+
+            const feeCourse = totalHours * 1500;
+            const feeMaterial = checkboxes.length * 150 * numStudents;
+            const feeStay = isHousing ? (numStudents * 200 * estDays) : 0;
+            const feeFood = isCatering ? (numStudents * 300 * estDays) : 0;
+            
+            const totalPeople = numStudents + numTeachers;
+            const airportBuses = Math.ceil(totalPeople / 35);
+            const feeAirport = isAirport ? (airportBuses * 20000) : 0;
+            
+            const tourBuses = Math.ceil(totalPeople / 40);
+            const feeTour = tourDays * tourBuses * 20000;
+
+            const subtotal = feeCourse + feeMaterial + feeStay + feeFood + feeAirport + feeTour;
+            const totalWithAdmin = Math.round(subtotal * 1.18);
+            const avgPerStudent = numStudents > 0 ? Math.round(totalWithAdmin / numStudents) : 0;
+
+            document.getElementById('display-total-cost').innerText = totalWithAdmin.toLocaleString();
+            document.getElementById('display-avg-cost').innerText = avgPerStudent.toLocaleString();
+        }
+
+        function sendInquiryEmail() {
+            const t = translations[currentLang];
+            const checkboxes = document.querySelectorAll('.course-checkbox:checked');
+            
+            if (checkboxes.length === 0) {
+                const msg = currentLang === 'zh' ? '請至少選擇一門課程。' : 
+                            currentLang === 'ja' ? '少なくとも1つのコースを選択してください。' : 
+                            currentLang === 'mn' ? 'Хамгийн багадаа нэг хичээл сонгоно уу.' :
+                            'Please select at least one course.';
+                alert(msg);
+                return;
+            }
+
+            const numStudents = document.getElementById('input-students').value;
+            const numTeachers = document.getElementById('input-teachers').value;
+            const tourDays = document.getElementById('input-tour-days').value;
+            const isCatering = document.getElementById('check-catering').checked ? 'Yes' : 'No';
+            const isHousing = document.getElementById('check-stay').checked ? 'Yes' : 'No';
+            const isAirport = document.getElementById('check-airport').checked ? 'Yes' : 'No';
+            
+            let courses = [];
+            checkboxes.forEach(cb => courses.push(cb.getAttribute('data-name')));
+            
+            const subject = encodeURIComponent("[DYU Inquiry] Custom Experience Program Request");
+            const body = encodeURIComponent(
+                `Hello DYU International Office,\n\n` +
+                `We are interested in organizing a short-term experience program. Requirement list:\n\n` +
+                `[Selected Courses]\n- ${courses.join('\n- ')}\n\n` +
+                `[Group Details]\n` +
+                `- Students: ${numStudents}\n` +
+                `- Teachers: ${numTeachers}\n` +
+                `- Culture Tour Days: ${tourDays}\n\n` +
+                `[Requested Services]\n` +
+                `- Catering: ${isCatering}\n` +
+                `- Housing: ${isHousing}\n` +
+                `- Airport Transfer: ${isAirport}\n\n` +
+                `[Web Estimation Result]\n` +
+                `- Duration: ${document.getElementById('display-duration-string').innerText}\n` +
+                `- Total Estimated Cost: NT$ ${document.getElementById('display-total-cost').innerText}\n\n` +
+                `*Please provide a formal quote and contact us for further confirmation. Thank you!`
+            );
+            
+            window.location.href = `mailto:int.dyu@mail.dyu.edu.tw?subject=${subject}&body=${body}`;
+        }
+
+        function uncheckItem(id) {
+            const cb = document.getElementById(id);
+            if (cb) { cb.checked = false; updateSelectionSummary(); }
+        }
+
+        function selectAllInModule(moduleId) {
+            const checkboxes = document.querySelectorAll(`input[data-module="${moduleId}"]`);
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            checkboxes.forEach(cb => { cb.checked = !allChecked; });
+            updateSelectionSummary();
+        }
+
+        // 監聽網頁捲動，控制上方 Navbar 左側標題與 Logo 顯示
+        window.addEventListener('scroll', () => {
+            const brand = document.getElementById('nav-brand');
+            if (window.scrollY > 150) {
+                // 網頁向下滑動超過 150px 時顯示
+                brand.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+                brand.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            } else {
+                // 回到頂部時隱藏
+                brand.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+                brand.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            }
+        });
+
+        window.onload = () => setLanguage('zh');
+    </script>
+</body>
+</html>
